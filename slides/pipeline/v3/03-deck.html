@@ -1,0 +1,599 @@
+<!doctype html>
+<html lang="zh-Hant">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Prompt Engineering LLM Wiki</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;500;700;900&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#efede8; --paper:#fbfaf7; --ink:#1c1b19; --ink-2:#55524c; --ink-3:#8a867e; --line:#dcd8cf;
+  --accent:#3b4bd8; --accent-soft:#e6e8fb; --warn:#b4540a; --warn-soft:#fbeedd; --good:#1f7a4d; --good-soft:#e1f2e8;
+  --code-bg:#f1efe9; --on-accent:#fff;
+  --t-technique:#3b4bd8; --t-source:#b4540a; --t-concept:#1f7a4d; --t-model:#8a3fb8; --t-comparison:#c2366b; --t-query:#2b8a9e;
+  --font:"Noto Sans TC","PingFang TC","Microsoft JhengHei",system-ui,sans-serif;
+  --mono:"JetBrains Mono",ui-monospace,Menlo,monospace;
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    --bg:#121211; --paper:#1c1c1a; --ink:#f0eee9; --ink-2:#b9b5ac; --ink-3:#85827a; --line:#34332f;
+    --accent:#8c97ff; --accent-soft:#262a4a; --warn:#f0a35c; --warn-soft:#3a2a18; --good:#6fcf9b; --good-soft:#1b3326;
+    --code-bg:#252522; --on-accent:#121211;
+    --t-technique:#8c97ff; --t-source:#f0a35c; --t-concept:#6fcf9b; --t-model:#c99af0; --t-comparison:#f07ba6; --t-query:#6cc7d9;
+  }
+}
+:root[data-theme="dark"]{
+  --bg:#121211; --paper:#1c1c1a; --ink:#f0eee9; --ink-2:#b9b5ac; --ink-3:#85827a; --line:#34332f;
+  --accent:#8c97ff; --accent-soft:#262a4a; --warn:#f0a35c; --warn-soft:#3a2a18; --good:#6fcf9b; --good-soft:#1b3326;
+  --code-bg:#252522; --on-accent:#121211;
+  --t-technique:#8c97ff; --t-source:#f0a35c; --t-concept:#6fcf9b; --t-model:#c99af0; --t-comparison:#f07ba6; --t-query:#6cc7d9;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html,body{height:100%;background:var(--bg);color:var(--ink);font-family:var(--font);overflow:hidden}
+#viewport{position:fixed;inset:0;overflow:hidden}
+#stage{width:1280px;height:720px;position:absolute;left:50%;top:50%;transform-origin:center center}
+.slide{position:absolute;inset:0;background:var(--paper);border-radius:14px;box-shadow:0 10px 40px rgba(0,0,0,.08);
+  padding:56px 80px 66px;display:none;flex-direction:column;overflow:hidden}
+.slide.active{display:flex}
+.kicker{font-size:15px;font-weight:700;letter-spacing:.14em;color:var(--accent);margin-bottom:12px}
+h1{font-size:62px;font-weight:900;line-height:1.15;letter-spacing:-.01em}
+h2{font-size:38px;font-weight:900;line-height:1.25;margin-bottom:8px}
+h3{font-size:22px;font-weight:700;margin-bottom:8px;color:var(--ink)}
+.lead{font-size:21px;color:var(--ink-2);margin-bottom:26px;line-height:1.5}
+.lead strong{color:var(--accent)}
+p,li{font-size:20px;line-height:1.6;color:var(--ink-2)}
+strong{color:var(--ink);font-weight:700}
+ul{list-style:none}
+ul.dots li{position:relative;padding-left:22px;margin-bottom:8px}
+ul.dots li::before{content:"";position:absolute;left:2px;top:.7em;width:7px;height:7px;border-radius:50%;background:var(--accent)}
+code,.mono{font-family:var(--mono)}
+code{background:var(--code-bg);padding:1px 7px;border-radius:5px;font-size:.86em;color:var(--ink);white-space:nowrap}
+pre{background:var(--code-bg);border-radius:8px;padding:10px 14px;font-family:var(--mono);font-size:14px;line-height:1.55;color:var(--ink);white-space:pre-wrap;margin-top:10px}
+.grid2{display:grid;grid-template-columns:1fr 1fr;gap:24px}
+.grid3{display:grid;grid-template-columns:repeat(3,1fr);gap:22px}
+.card{border:1.5px solid var(--line);border-radius:12px;padding:20px 22px;background:var(--paper)}
+.card.accent{border-color:var(--accent);background:var(--accent-soft)}
+.card.warn{border-color:var(--warn);background:var(--warn-soft)}
+.card.good{border-color:var(--good);background:var(--good-soft)}
+.tag{display:inline-block;font-size:14px;font-weight:700;padding:3px 10px;border-radius:99px;background:var(--accent-soft);color:var(--accent);margin-bottom:8px}
+.tag.warn{background:var(--warn-soft);color:var(--warn)}
+.tag.good{background:var(--good-soft);color:var(--good)}
+.tag.plain{background:var(--code-bg);color:var(--ink-2);font-family:var(--mono);font-weight:600;margin:0 6px 8px 0}
+.muted{color:var(--ink-3)}
+.inf{font-size:.8em;color:var(--warn);font-weight:700;white-space:nowrap}
+.src{font-size:14px;color:var(--ink-3);margin-top:auto;padding-top:12px}
+.src code{font-size:12.5px}
+.notes{display:none}
+/* title */
+.title-slide{justify-content:center;background:radial-gradient(circle at 88% 18%,var(--accent-soft) 0,transparent 42%),var(--paper)}
+.title-slide .sub{font-size:26px;color:var(--ink-2);margin-top:20px}
+.badges{display:flex;gap:16px;margin-top:44px}
+.badge{border:1.5px solid var(--line);border-radius:12px;padding:12px 22px;background:var(--paper)}
+.badge b{font-size:40px;font-weight:900;color:var(--accent);margin-right:8px}
+.badge span{font-size:18px;color:var(--ink-2)}
+.title-slide .meta{margin-top:40px;font-size:17px;color:var(--ink-3)}
+/* tables */
+table{width:100%;border-collapse:collapse;font-size:19px}
+th,td{text-align:left;padding:11px 14px;border-bottom:1px solid var(--line);vertical-align:top;color:var(--ink-2);line-height:1.45}
+th{color:var(--ink);font-weight:700;font-size:17px;background:var(--code-bg)}
+td:first-child{color:var(--ink);font-weight:700;white-space:nowrap}
+th.hl,td.hl{background:var(--accent-soft);color:var(--ink)}
+/* concluding bar */
+.concl{margin-top:20px;border-left:4px solid var(--good);background:var(--good-soft);padding:12px 18px;border-radius:0 10px 10px 0;font-size:20px;color:var(--ink)}
+/* arch */
+.arch{display:grid;grid-template-columns:1fr 52px 1fr 52px 1fr;align-items:stretch}
+.arch .arrow{display:grid;place-items:center;font-size:32px;color:var(--ink-3)}
+.arch .card p{font-size:17px}
+.ops{display:grid;grid-template-columns:repeat(3,1fr);gap:18px;margin-top:24px}
+.ops .card p{font-size:18px}
+/* grouped bars */
+.gbars{display:grid;grid-template-columns:repeat(4,1fr);gap:28px;align-items:end;height:300px;border-bottom:2px solid var(--line);padding:0 10px}
+.gb{display:flex;gap:10px;align-items:flex-end;justify-content:center;height:100%}
+.gb .b{width:56px;border-radius:8px 8px 0 0;display:flex;justify-content:center;align-items:flex-start;font-family:var(--mono);font-weight:600;font-size:17px;padding-top:6px}
+.gb .b.v1{background:var(--ink-3);color:var(--paper)}
+.gb .b.v2{background:var(--accent);color:var(--on-accent)}
+.glabels{display:grid;grid-template-columns:repeat(4,1fr);gap:28px;padding:10px 10px 0;text-align:center;font-size:18px;color:var(--ink);font-weight:700}
+.legend{display:flex;gap:22px;font-size:16px;color:var(--ink-2);margin-bottom:12px}
+.legend i{display:inline-block;width:14px;height:14px;border-radius:4px;vertical-align:-2px;margin-right:6px}
+/* pipeline svg */
+#pipe text{font-family:var(--font)}
+.pbox{fill:var(--paper);stroke:var(--accent);stroke-width:2}
+.pbox.end{fill:var(--accent-soft)}
+.pdia{fill:var(--paper);stroke:var(--ink-3);stroke-width:2}
+.pdia.human{fill:var(--warn-soft);stroke:var(--warn)}
+.ptxt{fill:var(--ink);font-size:17px;font-weight:700}
+.pnum{fill:var(--accent);font-size:13px;font-weight:700;font-family:var(--mono)!important}
+.pdtx{fill:var(--ink);font-size:13px;font-weight:700;font-family:var(--mono)!important}
+.pfw{stroke:var(--ink-3);stroke-width:2;fill:none}
+.pback{fill:none;stroke-width:2;stroke-dasharray:6 5}
+.plbl{font-size:13.5px;font-weight:700}
+.mini{display:grid;grid-template-columns:1fr 1fr;gap:4px 28px;margin-bottom:14px}
+.mini li{font-size:18px;margin-bottom:2px}
+/* graph */
+#graph{width:100%;flex:1;min-height:0}
+#graph text{font-family:var(--font);font-size:12.5px;fill:var(--ink);paint-order:stroke;stroke:var(--paper);stroke-width:4px;stroke-linejoin:round}
+#graph line{stroke:var(--line);stroke-width:1.2}
+.gleg{display:flex;gap:18px;flex-wrap:wrap;font-size:15px;color:var(--ink-2)}
+.gleg i{display:inline-block;width:12px;height:12px;border-radius:50%;margin-right:6px;vertical-align:-1px}
+/* big numbers */
+.bignums{display:grid;grid-template-columns:repeat(3,1fr);gap:24px;margin-top:10px}
+.bn{border-left:5px solid var(--accent);padding:6px 0 6px 22px}
+.bn b{display:block;font-size:96px;font-weight:900;line-height:1;color:var(--ink)}
+.bn span{font-size:20px;color:var(--ink-2)}
+/* timeline */
+.timeline{display:grid;grid-template-columns:repeat(5,1fr);position:relative;margin-top:14px}
+.timeline::before{content:"";position:absolute;left:0;right:0;top:19px;height:3px;background:var(--line)}
+.tl{padding-right:20px;position:relative}
+.tl .dot{width:40px;height:40px;border-radius:50%;background:var(--paper);border:3px solid var(--accent);display:grid;place-items:center;font-weight:900;color:var(--accent);position:relative;margin-bottom:16px}
+.tl.now .dot{background:var(--accent);color:var(--on-accent)}
+.tl .when{font-size:15px;font-weight:700;color:var(--accent);letter-spacing:.06em}
+.tl h3{margin-top:4px;font-size:20px}
+.tl p{font-size:17px}
+.tl pre{font-size:12.5px;padding:8px 10px}
+/* number cards */
+.ncards{display:grid;grid-template-columns:repeat(3,1fr);gap:20px}
+.nc .big{font-size:44px;font-weight:900;color:var(--accent);line-height:1.1;margin:4px 0 6px;font-family:var(--font)}
+.nc p{font-size:16px}
+.bars{display:flex;flex-direction:column;gap:6px;margin-top:22px}
+.track{height:30px;background:var(--code-bg);border-radius:7px;overflow:hidden}
+.fill{height:100%;border-radius:7px;display:flex;align-items:center;justify-content:flex-end;padding-right:10px;font-family:var(--mono);font-weight:600;font-size:14px;color:#fff;white-space:nowrap}
+.fill.before{background:var(--ink-3)}
+.fill.after{background:var(--accent);color:var(--on-accent)}
+.note{font-size:15px;color:var(--ink-3);margin-top:14px}
+/* quote cards */
+.quote p{font-size:19px}
+/* radial */
+.radial{display:grid;grid-template-columns:1fr 1fr 1fr;grid-template-rows:auto auto;gap:18px;align-items:stretch}
+.radial .card p{font-size:17px}
+.radial .center{grid-row:1 / span 2;grid-column:2;display:flex;flex-direction:column;justify-content:center;text-align:center;border-color:var(--warn);background:var(--warn-soft)}
+.radial .center h3{font-size:30px}
+/* chat */
+.chat{display:flex;flex-direction:column;gap:14px}
+.bubble{max-width:78%;border-radius:16px;padding:14px 20px;font-size:19px;line-height:1.55}
+.bubble.q{align-self:flex-start;background:var(--code-bg);color:var(--ink)}
+.bubble.a{align-self:flex-end;background:var(--accent-soft);color:var(--ink);border:1.5px solid var(--accent)}
+.bubble.a ul li{font-size:18px}
+.saveto{align-self:flex-end;font-size:17px;color:var(--good);font-weight:700}
+/* chrome */
+#bar{position:fixed;left:0;right:0;bottom:0;height:4px;z-index:5}
+#bar i{display:block;height:100%;background:var(--accent);transition:width .25s}
+#nav{position:fixed;right:18px;bottom:14px;display:flex;align-items:center;gap:6px;z-index:6;font-size:14px;color:var(--ink-3);font-family:var(--mono)}
+#nav button{all:unset;cursor:pointer;width:34px;height:34px;border-radius:8px;display:grid;place-items:center;color:var(--ink-2);background:var(--paper);border:1px solid var(--line);font-size:15px}
+#nav button:hover{color:var(--accent);border-color:var(--accent)}
+#nav button:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+#notesbox{position:fixed;left:18px;right:200px;bottom:14px;max-height:30vh;overflow:auto;background:var(--paper);border:1px solid var(--line);border-radius:10px;padding:12px 16px;font-size:15px;line-height:1.6;color:var(--ink-2);z-index:6;display:none;box-shadow:0 6px 24px rgba(0,0,0,.12)}
+body.show-notes #notesbox{display:block}
+.pageno{position:absolute;left:80px;bottom:26px;font-size:14px;color:var(--ink-3);font-family:var(--mono)}
+@media print{
+  html,body{overflow:visible;background:#fff}
+  #viewport{position:static}
+  #stage{transform:none!important;position:static;width:auto;height:auto}
+  .slide{display:flex!important;position:relative;width:1280px;height:720px;page-break-after:always;box-shadow:none;border-radius:0}
+  #nav,#bar,#notesbox{display:none!important}
+}
+:root{--bad-soft:#fbe4ec}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]){--bad-soft:#3a1d28}}
+:root[data-theme="dark"]{--bad-soft:#3a1d28}
+.req .card{padding:18px 20px}
+.req .ri{display:flex;flex-direction:column;margin-bottom:12px}
+.req .ri b{font-size:18px;color:var(--ink);line-height:1.4}
+.req .ri code{font-size:13.5px;align-self:flex-start;margin-top:4px}
+.req .ri em{font-style:normal;font-size:14px;color:var(--good);font-weight:700;margin-top:2px}
+.row-stats{display:flex;gap:26px;align-items:baseline;margin-bottom:8px;font-size:17px;color:var(--ink-2)}
+.row-stats b{font-size:30px;font-weight:900;color:var(--accent)}
+.row-stats small{font-size:14px;color:var(--ink-3);margin-left:6px}
+pre.tree{font-size:15px;line-height:1.75;margin:0;padding:16px 20px}
+pre.tree b{color:var(--accent)}
+.pcap{font-size:12.5px;fill:var(--ink-2)}
+.pdia.new{stroke:var(--t-comparison);stroke-width:2.5}
+.steps{display:grid;grid-template-columns:repeat(4,1fr);gap:16px}
+.steps .card p{font-size:19px;color:var(--ink)}
+.steps .card p.small{font-size:15px;color:var(--ink-2);margin-top:8px}
+.card.bad{border-color:var(--t-comparison);background:var(--bad-soft)}
+.tag.bad{background:var(--bad-soft);color:var(--t-comparison)}
+tr.badrow td{background:var(--bad-soft);color:var(--ink)}
+.hb{display:grid;grid-template-columns:140px 1fr 36px 260px;align-items:center;gap:12px;margin-bottom:7px}
+.hb .n{font-size:17px;color:var(--ink);font-weight:700;text-align:right}
+.hb .t{height:22px;background:var(--code-bg);border-radius:6px;overflow:hidden}
+.hb .f{display:block;height:100%;background:var(--accent);border-radius:6px}
+.hb.hot .f{background:var(--warn)}
+.hb .v{font-family:var(--mono);font-size:16px;color:var(--ink);font-weight:600}
+.hb .c{font-size:15px;color:var(--ink-3)}
+.hb.hot .c,.hb.hot .n{color:var(--warn);font-weight:700}
+.moves .mv{display:grid;grid-template-columns:170px 170px 50px 1fr;align-items:center;padding:13px 18px;border-bottom:1px solid var(--line);font-size:22px}
+.moves .what{font-weight:700;color:var(--ink)}
+.moves .from{color:var(--ink-3);text-decoration:line-through}
+.moves .arr{color:var(--accent);font-size:26px}
+.moves .to{color:var(--accent);font-weight:700}
+</style>
+</head>
+<body>
+<div id="viewport"><div id="stage">
+
+<!-- 1 -->
+<section class="slide title-slide">
+  <div class="kicker">生成式 AI 個人作業｜LLM Wiki</div>
+  <h1 style="font-size:54px">用「先討論、後生成」建<br>Prompt Engineering LLM Wiki</h1>
+  <p class="sub">把建 wiki、做簡報拆成 AI 能做、人能檢查的流程</p>
+  <div class="badges">
+    <div class="badge"><b>8</b><span>篇資料</span></div>
+    <div class="badge"><b>30</b><span>個頁面</span></div>
+    <div class="badge"><b>2</b><span>張流程圖</span></div>
+  </div>
+  <aside class="notes" data-n="1">這次作業我選的主題是 Prompt Engineering。我請 AI 用 Karpathy 的 LLM Wiki 方法建知識庫，再把建 wiki 和做簡報這兩件工作，拆成 AI 能做、我能檢查的流程。</aside>
+</section>
+
+<!-- 2 -->
+<section class="slide">
+  <div class="kicker">繳交 · 需求摘要</div>
+  <h2>需求摘要</h2>
+  <p class="lead">作業三部分對應 <strong>7 項產出</strong>，每項都有檔案和驗收標準</p>
+  <div class="grid3 req">
+    <div class="card warn"><span class="tag warn">建 Wiki</span>
+      <div class="ri"><b>至少 ingest 5 篇</b><code>wiki/ · raw/</code><em>8 篇</em></div>
+      <div class="ri"><b>先討論、後生成</b><code>log.md</code><em>補討論完成</em></div></div>
+    <div class="card accent"><span class="tag">繳交</span>
+      <div class="ri"><b>需求摘要</b><code>requirements.md</code></div>
+      <div class="ri"><b>AGENTS.md</b><code>AGENTS.md → CLAUDE.md</code></div>
+      <div class="ri"><b>workflow 流程圖</b><code>流程 A · 流程 B</code></div>
+      <div class="ri"><b>檢查報告</b><code>reports/check-report.md</code></div></div>
+    <div class="card good"><span class="tag good">反思</span>
+      <div class="ri"><b>哪個節點最常出錯？</b><code>reports/reflection.md</code></div>
+      <div class="ri"><b>檢查往前移到哪裡？</b><code>reports/reflection.md</code></div>
+      <div class="ri" style="margin-top:14px"><b>另外：HTML 簡報＋GitHub</b><code>本簡報 · repo</code></div></div>
+  </div>
+  <p class="src">來源：<code>requirements.md</code></p>
+  <aside class="notes" data-n="2">老師的作業分成三部分：建 wiki、繳交四樣東西、回答兩個反思問題。我先把它們整理成需求摘要，每一項都寫出對應的檔案和驗收標準。這份需求摘要後來變成流程的第一道關卡。</aside>
+</section>
+
+<!-- 3 -->
+<section class="slide">
+  <div class="kicker">建 Wiki</div>
+  <h2>為什麼用 LLM Wiki</h2>
+  <p class="lead">wiki 把整理結果留下來，<strong>知識會累積</strong></p>
+  <div class="grid2">
+    <div class="card"><span class="tag warn">RAG</span><ul class="dots"><li>每次提問才找資料，知識不累積</li></ul></div>
+    <div class="card accent"><span class="tag">LLM Wiki</span><ul class="dots"><li>加入資料時就整理成頁面</li></ul></div>
+  </div>
+  <div class="arch" style="margin-top:22px">
+    <div class="card warn"><span class="tag warn">raw</span><p>原始資料，唯讀</p></div>
+    <div class="arrow">→</div>
+    <div class="card accent"><span class="tag">wiki</span><p>AI 撰寫的頁面</p></div>
+    <div class="arrow">←</div>
+    <div class="card good"><span class="tag good">schema</span><p>CLAUDE.md 規則</p></div>
+  </div>
+  <p style="margin-top:18px;font-size:19px">三種操作：<strong>ingest</strong> 加資料、<strong>query</strong> 提問、<strong>lint</strong> 健康檢查</p>
+  <p class="src">來源頁：<code>llm-wiki</code> · <code>rag</code> · <code>2026-karpathy-llm-wiki</code></p>
+  <aside class="notes" data-n="3">RAG 每次提問都從頭找，回答完就沒了。LLM Wiki 是在加入資料的時候就整理成互相連結的頁面，所以知識會累積。人負責挑資料和提問，AI 負責寫和維護。</aside>
+</section>
+
+<!-- 4 -->
+<section class="slide">
+  <div class="kicker">建 Wiki</div>
+  <h2 style="margin-bottom:6px">8 篇資料長成一張知識網</h2>
+  <div class="row-stats">
+    <span><b>8</b> 篇資料<small>論文 5、官方指南 2、文章 1</small></span>
+    <span><b>30</b> 個頁面</span><span><b>109</b> 條連結</span>
+    <span class="muted" style="margin-left:auto;font-size:16px">思維鏈 20 條連結，是整張網的中心</span>
+  </div>
+  <div class="gleg" id="gleg"></div>
+  <svg id="graph" viewBox="0 0 1000 460" role="img" aria-label="wiki 知識圖譜：29 個頁面、109 條連結，思維鏈連結最多"></svg>
+  <aside class="notes" data-n="4">作業要求至少 5 篇，我放了 8 篇：5 篇論文、Anthropic 和 OpenAI 的官方指南，還有 Karpathy 的原文。AI 整理出 30 個頁面、109 條連結。最大的點是思維鏈，可以看出這份知識庫是繞著推理技巧長出來的。</aside>
+</section>
+
+<!-- 5 -->
+<section class="slide">
+  <div class="kicker">建 Wiki · wiki 內容①</div>
+  <h2>思維鏈的演進</h2>
+  <p class="lead">從手寫範例到<strong>模型內建思考</strong></p>
+  <div class="timeline" style="margin-top:auto;margin-bottom:auto">
+    <div class="tl"><div class="dot">1</div><div class="when">2022 初</div><h3>Few-shot CoT</h3><p>手寫推理範例</p></div>
+    <div class="tl"><div class="dot">2</div><div class="when">2022 春</div><h3>Self-Consistency</h3><p>多推幾次取多數</p></div>
+    <div class="tl"><div class="dot">3</div><div class="when">2022 中</div><h3>Zero-shot CoT</h3><p>一句觸發語，GSM8K <strong>10.4%→40.7%</strong></p><pre>Let's think
+step by step.</pre></div>
+    <div class="tl"><div class="dot">4</div><div class="when">2022 秋</div><h3>ReAct</h3><p>推理之間穿插查資料</p></div>
+    <div class="tl now"><div class="dot">5</div><div class="when">現在</div><h3>內建思考</h3><p>手動 CoT 降為備案</p></div>
+  </div>
+  <p class="src">來源頁：<code>chain-of-thought</code> · <code>zero-shot-cot</code> · <code>self-consistency</code> · <code>react</code> · <code>extended-thinking</code></p>
+  <aside class="notes" data-n="5">這是 wiki 裡最重要的一條故事線。2022 年光是一句 Let&#x27;s think step by step，就讓數學題正確率從一成變四成。到現在新模型把思考做進模型裡，手動寫步驟反而變成備案。論文和官方指南說法不同時，wiki 會並列兩邊，結論是模型世代不同。</aside>
+</section>
+
+<!-- 6 -->
+<section class="slide">
+  <div class="kicker">建 Wiki · wiki 內容②</div>
+  <h2>怎麼寫好 prompt</h2>
+  <p class="lead" style="margin-bottom:16px">兩家官方指南的共同建議</p>
+  <div class="grid2" style="gap:16px">
+    <div class="card"><h3>清楚直接</h3><p>說明「為什麼」</p><pre>回答會被語音朗讀，所以不要用刪節號</pre></div>
+    <div class="card"><h3>給範例</h3><p>3–5 個、多樣</p><pre>&lt;example&gt;評論：出貨超快！→ 正面&lt;/example&gt;</pre></div>
+    <div class="card"><h3>標籤分段</h3><p>指令、文件、範例分開</p><pre>&lt;instructions&gt;…&lt;/instructions&gt;&lt;documents&gt;…&lt;/documents&gt;</pre></div>
+    <div class="card"><h3>設定角色</h3><p>一句話也有差</p><pre>你是一位耐心的高中數學老師</pre></div>
+  </div>
+  <div class="concl" style="margin-top:16px">結論：<strong>依模型能力調整寫法</strong>（推理模型給目標，一般模型給明確步驟）</div>
+  <p class="src">來源頁：<code>anthropic-vs-openai-guides</code> · <code>be-clear-and-direct</code> · <code>few-shot-prompting</code> · <code>xml-tags</code> · <code>role-prompting</code></p>
+  <aside class="notes" data-n="6">Anthropic 和 OpenAI 的官方指南建議幾乎一致。OpenAI 的比喻很好記：推理模型像資深同事，給目標就好；一般模型像資淺同事，要交代清楚步驟。</aside>
+</section>
+
+<!-- 7 -->
+<section class="slide">
+  <div class="kicker">繳交 · AGENTS.md</div>
+  <h2>AGENTS.md：給 AI 的規則</h2>
+  <p class="lead">三層結構＋引用規則＋禁止事項</p>
+  <div class="grid2" style="grid-template-columns:.8fr 1.2fr;margin-top:auto;margin-bottom:auto">
+    <pre class="tree">GenAI_LLM_Wiki/
+├── <b>AGENTS.md</b>      → 請讀 CLAUDE.md
+├── <b>CLAUDE.md</b>      ← 規則本體
+├── requirements.md
+├── raw/           唯讀
+├── wiki/          AI 維護
+├── workflows/
+├── reports/
+└── scripts/check_wiki.py</pre>
+    <ul class="dots">
+      <li>AGENTS.md 指向 CLAUDE.md，任何 AI 工具都讀得到</li>
+      <li>頁面格式：frontmatter、檔名、每頁連出 ≥ 2</li>
+      <li>每個論點要追溯到來源，推論要標註</li>
+      <li>來源衝突時並列「⚠️ 不同說法」，不選邊</li>
+      <li>禁止：改 raw、編造來源、大段複製原文</li>
+    </ul>
+  </div>
+  <p class="src">來源：<code>AGENTS.md</code> · <code>CLAUDE.md</code></p>
+  <aside class="notes" data-n="7">AGENTS.md 是給所有 AI 工具的入口，我讓它指向 CLAUDE.md，規則只維護一份。規則裡最重要的是可追溯：每個論點都要連回來源頁，沒有來源的推論要標出來；來源說法衝突時，AI 不能自己選邊。</aside>
+</section>
+
+<!-- 8 -->
+<section class="slide">
+  <div class="kicker">繳交 · workflow 流程圖</div>
+  <h2>流程圖 A：建 wiki</h2>
+  <p class="lead" style="margin-bottom:6px">生成前<strong>討論</strong>、生成後<strong>自動檢查</strong></p>
+  <svg id="flowA" viewBox="0 0 1120 330" style="width:100%;height:auto;margin-top:auto;margin-bottom:auto" role="img" aria-label="建 wiki 的流程圖"><g></g></svg>
+  <p class="src">橘色菱形＝人工討論／決定，灰色菱形＝自動檢查。Query 的好答案存回 <code>queries/</code> 後也要重跑 K。來源：<code>workflows/wiki-workflow.md</code></p>
+  <aside class="notes" data-n="8">建 wiki 的流程裡，每個生成步驟前都有人工討論 D1，生成後有自動檢查 K。K 不通過就退回重新生成；lint 找到的缺口，由我決定要補資料還是修頁面。</aside>
+</section>
+
+<!-- 9 -->
+<section class="slide">
+  <div class="kicker">繳交 · workflow 流程圖</div>
+  <h2>流程圖 B：做簡報</h2>
+  <p class="lead" style="margin-bottom:6px">需求關卡＋6 個階段＋5 道檢查，<strong>不通過就退回</strong></p>
+  <svg id="pipe" viewBox="0 0 1240 300" style="width:100%;height:auto;margin-top:auto;margin-bottom:auto" role="img" aria-label="做簡報的流程圖"><g id="pipe-g"></g></svg>
+  <p class="src">橘色菱形＝需要人工確認。<strong style="color:var(--t-comparison)">R0 是 v0.2 新增的</strong>。來源：<code>slides/pipeline/README.md</code></p>
+  <aside class="notes" data-n="9">做簡報的流程有 6 個階段、5 道檢查，審閱發現的問題會依類型退回不同階段。最前面的 R0 需求確認，是我做完第一版之後才加上去的，原因在反思會講。</aside>
+</section>
+
+<!-- 10 -->
+<section class="slide">
+  <div class="kicker">繳交 · 檢查報告①</div>
+  <h2>一次實際執行（流程 A）</h2>
+  <p class="lead">補討論找到 4 個缺口，K 檢查<strong>第 2 輪通過</strong></p>
+  <div class="steps" style="margin-top:auto;margin-bottom:auto">
+    <div class="card"><span class="tag plain">範圍</span><p>補討論第二批 5 篇資料</p></div>
+    <div class="card warn"><span class="tag warn">D1 討論</span><p>找到 4 個缺口並補上</p><p class="small">例：數字的「單位未說明」附註，搬到技巧頁時遺失</p></div>
+    <div class="card bad"><span class="tag bad">K 第 1 輪 ❌</span><p>抓到 1 個孤兒頁</p><p class="small">問答頁沒有任何頁面連入</p></div>
+    <div class="card good"><span class="tag good">K 第 2 輪 ✅</span><p>7／7 通過</p><p class="small">30 頁、109 條連結</p></div>
+  </div>
+  <p class="src">來源：<code>reports/ingest-run-2026-11-10.md</code> · <code>scripts/check_wiki.py</code></p>
+  <aside class="notes" data-n="10">第二批 5 篇一開始是一次做完的，跳過了討論，所以我照流程 A 補跑一次。討論時發現 4 個缺口，例如有個數字的附註在搬到技巧頁時遺失了。自動檢查第一輪又抓到一個沒有任何頁面連入的孤兒頁，修好後第二輪全部通過。</aside>
+</section>
+
+<!-- 11 -->
+<section class="slide">
+  <div class="kicker">繳交 · 檢查報告②</div>
+  <h2>流程 B 每道關卡（簡報 v2）</h2>
+  <p class="lead" style="margin-bottom:14px">每關都抓到問題，但<strong>沒抓到「方向錯」</strong></p>
+  <table>
+    <tr><th>關卡</th><th>結果</th><th>發現</th></tr>
+    <tr><td>C0 wiki 健康檢查</td><td>✅</td><td>但漏了快照計數錯誤（概念 7，實際 6）</td></tr>
+    <tr><td>C1 大綱</td><td>✅</td><td>但「作業要求」標「不知道」仍放行</td></tr>
+    <tr><td>C2 事實查核</td><td>✅</td><td>抓到 5 頁條列太長、2 句沒有依據</td></tr>
+    <tr><td>C3 渲染檢查</td><td>✅</td><td>修 2 輪才通過（圖譜標籤重疊等）</td></tr>
+    <tr><td>C4 審閱</td><td>✅</td><td>發佈 v2</td></tr>
+    <tr class="badrow"><td>發佈後</td><td>❌</td><td>簡報在介紹自己怎麼做，不是在交作業</td></tr>
+  </table>
+  <p class="src">來源：<code>reports/check-report.md</code></p>
+  <aside class="notes" data-n="11">簡報 v2 的每一道關卡都有抓到問題，也都修好了。但最後我看完 v2，發現它在介紹簡報自己怎麼做，而不是在交作業。所有檢查都在問「做得對不對」，沒有一關在問「做的是不是對的東西」。</aside>
+</section>
+
+<!-- 12 -->
+<section class="slide">
+  <div class="kicker">反思</div>
+  <h2>哪個節點最常出錯？</h2>
+  <p class="lead" style="margin-bottom:14px">最常錯：<strong>製作 HTML</strong>；代價最大：<strong style="color:var(--warn)">大綱</strong></p>
+  <div class="hbars" id="hbars"></div>
+  <div class="grid2" style="margin-top:16px;gap:18px">
+    <div class="card"><p><strong>最常錯＝製作 HTML（10 次）</strong><br>C3 自動抓到，幾分鐘修好，代價低</p></div>
+    <div class="card warn"><p><strong>代價最大＝大綱（1 次）</strong><br>沒有任何檢查抓到，整份簡報重做</p></div>
+  </div>
+  <p class="src">來源：<code>reports/reflection.md</code></p>
+  <aside class="notes" data-n="12">最常出錯的是製作 HTML，總共 10 次，但都是排版問題，自動檢查幾分鐘就修好。真正代價最大的是大綱，只錯一次，但錯在最上游，下游的檢查全部抓不到，最後整份重做。</aside>
+</section>
+
+<!-- 13 -->
+<section class="slide">
+  <div class="kicker">反思</div>
+  <h2>檢查往前移到了哪裡？</h2>
+  <p class="lead">新增 <strong>R0 需求關卡</strong>，C0 改用程式檢查</p>
+  <div class="moves" style="margin-top:auto;margin-bottom:auto">
+    <div class="mv"><span class="what">定位錯</span><span class="from">C4 之後</span><span class="arr">→</span><span class="to">R0 需求確認</span></div>
+    <div class="mv"><span class="what">計數錯</span><span class="from">階段 3</span><span class="arr">→</span><span class="to">C0 程式檢查</span></div>
+    <div class="mv"><span class="what">條列太長</span><span class="from">C2</span><span class="arr">→</span><span class="to">寫大綱時</span></div>
+    <div class="mv"><span class="what">跳過討論</span><span class="from">事後</span><span class="arr">→</span><span class="to">D1 不跳過</span></div>
+  </div>
+  <div class="concl">錯誤越上游，下游越抓不到</div>
+  <p class="src">來源：<code>reports/reflection.md</code></p>
+  <aside class="notes" data-n="13">所以我把檢查往前移。最重要的是新增 R0：需求沒確認，流程不准開始，大綱的作業要求也不能寫「不知道」。快照的數字改成程式檢查，字數上限在寫大綱時就遵守。學到的一句話是：錯誤越上游，下游越抓不到。</aside>
+</section>
+
+<!-- 14 -->
+<section class="slide title-slide">
+  <div class="kicker">結尾</div>
+  <h1 style="font-size:46px">收穫與繳交位置</h1>
+  <div class="grid2" style="margin-top:30px;grid-template-columns:1.1fr .9fr">
+    <ul class="dots">
+      <li>錯誤越上游，下游越抓不到</li>
+      <li>先討論，再生成；先確認需求，再開工</li>
+      <li>檢查要寫成程式，定義才固定</li>
+      <li>所有檔案都在 GitHub repo</li>
+    </ul>
+    <pre class="tree">requirements.md      需求摘要
+AGENTS.md            AI 規則入口
+workflows/           流程圖 A
+slides/pipeline/     流程圖 B
+reports/             檢查報告、反思
+wiki/                知識庫本體</pre>
+  </div>
+  <p class="meta">謝謝聆聽</p>
+  <aside class="notes" data-n="14">最後總結三個收穫。所有繳交的檔案，包括需求摘要、AGENTS.md、兩張流程圖、檢查報告和反思，都放在 GitHub repo 裡。謝謝大家。</aside>
+</section>
+
+</div></div>
+
+<div id="bar"><i></i></div>
+<div id="notesbox" aria-live="polite"></div>
+<div id="nav">
+  <button id="notes" aria-label="講稿" title="講稿（N）">✎</button>
+  <button id="prev" aria-label="上一頁">‹</button>
+  <span id="count">1 / 14</span>
+  <button id="next" aria-label="下一頁">›</button>
+  <button id="fs" aria-label="全螢幕" title="全螢幕（F）">⛶</button>
+</div>
+<script>
+const GRAPH = {"nodes": [{"id": "2022-kojima-zero-shot-cot", "type": "source", "x": 162, "y": 29, "deg": 5}, {"id": "2022-wang-self-consistency", "type": "source", "x": 648, "y": 25, "deg": 3}, {"id": "2022-wei-cot-paper", "type": "source", "x": 453, "y": 32, "deg": 5}, {"id": "2022-yao-react", "type": "source", "x": 652, "y": 201, "deg": 4}, {"id": "2024-schulhoff-prompt-report", "type": "source", "x": 644, "y": 124, "deg": 3}, {"id": "2026-do-we-still-need-step-by-step", "type": "query", "x": 167, "y": 136, "deg": 7}, {"id": "2026-karpathy-llm-wiki", "type": "source", "x": 887, "y": 420, "deg": 3}, {"id": "anthropic-prompting-best-practices", "type": "source", "x": 241, "y": 238, "deg": 13}, {"id": "anthropic-vs-openai-guides", "type": "comparison", "x": 260, "y": 338, "deg": 9}, {"id": "be-clear-and-direct", "type": "technique", "x": 114, "y": 287, "deg": 8}, {"id": "chain-of-thought", "type": "technique", "x": 428, "y": 142, "deg": 20}, {"id": "claude", "type": "model", "x": 224, "y": 290, "deg": 11}, {"id": "emergent-abilities", "type": "concept", "x": 364, "y": 80, "deg": 4}, {"id": "evals", "type": "concept", "x": 336, "y": 248, "deg": 7}, {"id": "extended-thinking", "type": "concept", "x": 248, "y": 184, "deg": 13}, {"id": "few-shot-cot-vs-zero-shot-cot", "type": "comparison", "x": 254, "y": 91, "deg": 9}, {"id": "few-shot-prompting", "type": "technique", "x": 392, "y": 201, "deg": 12}, {"id": "gpt", "type": "model", "x": 198, "y": 356, "deg": 8}, {"id": "hallucination", "type": "concept", "x": 740, "y": 269, "deg": 9}, {"id": "llm-wiki", "type": "concept", "x": 940, "y": 369, "deg": 3}, {"id": "openai-prompt-engineering-guide", "type": "source", "x": 368, "y": 296, "deg": 12}, {"id": "rag", "type": "concept", "x": 674, "y": 373, "deg": 6}, {"id": "react", "type": "technique", "x": 605, "y": 264, "deg": 7}, {"id": "role-prompting", "type": "technique", "x": 116, "y": 365, "deg": 6}, {"id": "self-check", "type": "technique", "x": 493, "y": 234, "deg": 6}, {"id": "self-consistency", "type": "technique", "x": 715, "y": 162, "deg": 5}, {"id": "xml-tags", "type": "technique", "x": 372, "y": 346, "deg": 9}, {"id": "zero-shot-cot", "type": "technique", "x": 122, "y": 77, "deg": 6}, {"id": "zero-shot-prompting", "type": "technique", "x": 54, "y": 133, "deg": 5}], "edges": [["2022-kojima-zero-shot-cot", "2026-do-we-still-need-step-by-step"], ["2022-kojima-zero-shot-cot", "chain-of-thought"], ["2022-kojima-zero-shot-cot", "few-shot-cot-vs-zero-shot-cot"], ["2022-kojima-zero-shot-cot", "zero-shot-cot"], ["2022-kojima-zero-shot-cot", "zero-shot-prompting"], ["2022-wang-self-consistency", "2022-wei-cot-paper"], ["2022-wang-self-consistency", "chain-of-thought"], ["2022-wang-self-consistency", "self-consistency"], ["2022-wei-cot-paper", "chain-of-thought"], ["2022-wei-cot-paper", "emergent-abilities"], ["2022-wei-cot-paper", "few-shot-cot-vs-zero-shot-cot"], ["2022-wei-cot-paper", "few-shot-prompting"], ["2022-yao-react", "chain-of-thought"], ["2022-yao-react", "few-shot-prompting"], ["2022-yao-react", "hallucination"], ["2022-yao-react", "react"], ["2024-schulhoff-prompt-report", "chain-of-thought"], ["2024-schulhoff-prompt-report", "few-shot-prompting"], ["2024-schulhoff-prompt-report", "hallucination"], ["2026-do-we-still-need-step-by-step", "anthropic-prompting-best-practices"], ["2026-do-we-still-need-step-by-step", "chain-of-thought"], ["2026-do-we-still-need-step-by-step", "claude"], ["2026-do-we-still-need-step-by-step", "extended-thinking"], ["2026-do-we-still-need-step-by-step", "few-shot-cot-vs-zero-shot-cot"], ["2026-do-we-still-need-step-by-step", "zero-shot-cot"], ["2026-karpathy-llm-wiki", "hallucination"], ["2026-karpathy-llm-wiki", "llm-wiki"], ["2026-karpathy-llm-wiki", "rag"], ["anthropic-prompting-best-practices", "anthropic-vs-openai-guides"], ["anthropic-prompting-best-practices", "be-clear-and-direct"], ["anthropic-prompting-best-practices", "chain-of-thought"], ["anthropic-prompting-best-practices", "claude"], ["anthropic-prompting-best-practices", "evals"], ["anthropic-prompting-best-practices", "extended-thinking"], ["anthropic-prompting-best-practices", "few-shot-cot-vs-zero-shot-cot"], ["anthropic-prompting-best-practices", "few-shot-prompting"], ["anthropic-prompting-best-practices", "openai-prompt-engineering-guide"], ["anthropic-prompting-best-practices", "role-prompting"], ["anthropic-prompting-best-practices", "self-check"], ["anthropic-prompting-best-practices", "xml-tags"], ["anthropic-vs-openai-guides", "claude"], ["anthropic-vs-openai-guides", "evals"], ["anthropic-vs-openai-guides", "extended-thinking"], ["anthropic-vs-openai-guides", "few-shot-prompting"], ["anthropic-vs-openai-guides", "gpt"], ["anthropic-vs-openai-guides", "openai-prompt-engineering-guide"], ["anthropic-vs-openai-guides", "role-prompting"], ["anthropic-vs-openai-guides", "xml-tags"], ["be-clear-and-direct", "claude"], ["be-clear-and-direct", "extended-thinking"], ["be-clear-and-direct", "gpt"], ["be-clear-and-direct", "openai-prompt-engineering-guide"], ["be-clear-and-direct", "role-prompting"], ["be-clear-and-direct", "xml-tags"], ["be-clear-and-direct", "zero-shot-prompting"], ["chain-of-thought", "claude"], ["chain-of-thought", "emergent-abilities"], ["chain-of-thought", "evals"], ["chain-of-thought", "extended-thinking"], ["chain-of-thought", "few-shot-cot-vs-zero-shot-cot"], ["chain-of-thought", "few-shot-prompting"], ["chain-of-thought", "hallucination"], ["chain-of-thought", "openai-prompt-engineering-guide"], ["chain-of-thought", "react"], ["chain-of-thought", "self-check"], ["chain-of-thought", "self-consistency"], ["chain-of-thought", "xml-tags"], ["chain-of-thought", "zero-shot-cot"], ["claude", "evals"], ["claude", "extended-thinking"], ["claude", "gpt"], ["claude", "role-prompting"], ["claude", "self-check"], ["claude", "xml-tags"], ["emergent-abilities", "evals"], ["emergent-abilities", "extended-thinking"], ["evals", "gpt"], ["evals", "openai-prompt-engineering-guide"], ["extended-thinking", "few-shot-cot-vs-zero-shot-cot"], ["extended-thinking", "few-shot-prompting"], ["extended-thinking", "gpt"], ["extended-thinking", "openai-prompt-engineering-guide"], ["extended-thinking", "self-check"], ["extended-thinking", "zero-shot-cot"], ["few-shot-cot-vs-zero-shot-cot", "few-shot-prompting"], ["few-shot-cot-vs-zero-shot-cot", "zero-shot-cot"], ["few-shot-cot-vs-zero-shot-cot", "zero-shot-prompting"], ["few-shot-prompting", "openai-prompt-engineering-guide"], ["few-shot-prompting", "react"], ["few-shot-prompting", "xml-tags"], ["few-shot-prompting", "zero-shot-prompting"], ["gpt", "openai-prompt-engineering-guide"], ["gpt", "role-prompting"], ["gpt", "xml-tags"], ["hallucination", "llm-wiki"], ["hallucination", "rag"], ["hallucination", "react"], ["hallucination", "self-check"], ["hallucination", "self-consistency"], ["llm-wiki", "rag"], ["openai-prompt-engineering-guide", "rag"], ["openai-prompt-engineering-guide", "react"], ["openai-prompt-engineering-guide", "role-prompting"], ["openai-prompt-engineering-guide", "xml-tags"], ["rag", "react"], ["rag", "xml-tags"], ["react", "self-consistency"], ["self-check", "self-consistency"], ["zero-shot-cot", "zero-shot-prompting"]]};
+const LABELS = {
+  "chain-of-thought":"思維鏈 CoT","zero-shot-cot":"Zero-shot CoT","few-shot-prompting":"少樣本提示",
+  "zero-shot-prompting":"零樣本提示","xml-tags":"XML 標籤","be-clear-and-direct":"清楚直接",
+  "role-prompting":"角色提示","self-check":"自我檢查","self-consistency":"Self-Consistency","react":"ReAct",
+  "emergent-abilities":"湧現能力","extended-thinking":"內建思考","llm-wiki":"LLM Wiki","rag":"RAG",
+  "hallucination":"幻覺","evals":"評測 evals","claude":"Claude","gpt":"GPT",
+  "few-shot-cot-vs-zero-shot-cot":"Few vs Zero-shot CoT","anthropic-vs-openai-guides":"兩家指南比較",
+  "2026-do-we-still-need-step-by-step":"問答：step by step？",
+  "2022-wei-cot-paper":"Wei 2022","2022-kojima-zero-shot-cot":"Kojima 2022","2022-wang-self-consistency":"Wang 2022",
+  "2022-yao-react":"Yao 2022","2024-schulhoff-prompt-report":"Prompt Report","2026-karpathy-llm-wiki":"Karpathy 2026",
+  "anthropic-prompting-best-practices":"Anthropic 指南","openai-prompt-engineering-guide":"OpenAI 指南"
+};
+const TYPES = [["technique","技巧"],["concept","概念"],["model","模型"],["comparison","比較"],["query","問答"],["source","來源"]];
+const NS='http://www.w3.org/2000/svg';
+const el=(t,a,txt)=>{const e=document.createElementNS(NS,t);for(const k in a)e.setAttribute(k,a[k]);if(txt!=null)e.textContent=txt;return e};
+const MARKERS=`<defs>${[['ah','var(--ink-3)'],['ahw','var(--warn)'],['ahr','var(--t-comparison)']].map(([id,c])=>`<marker id="${id}" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="${c}"/></marker>`).join('')}</defs>`;
+
+(function drawGraph(){
+  const svg=document.getElementById('graph');
+  const pos=Object.fromEntries(GRAPH.nodes.map(n=>[n.id,n]));
+  const gE=el('g',{}), gN=el('g',{});
+  GRAPH.edges.forEach(([a,b])=>gE.appendChild(el('line',{x1:pos[a].x,y1:pos[a].y,x2:pos[b].x,y2:pos[b].y})));
+  GRAPH.nodes.forEach(n=>{
+    const r=5+n.deg*0.9;
+    const c=el('circle',{cx:n.x,cy:n.y,r,fill:`var(--t-${n.type})`,stroke:'var(--paper)','stroke-width':2});
+    c.appendChild(el('title',{},`${LABELS[n.id]||n.id}（${n.deg} 條連結）`));
+    const t=el('text',{x:n.x,y:n.y+r+13,'text-anchor':'middle'},LABELS[n.id]||n.id);
+    if(n.deg>=13)t.setAttribute('font-weight','700');
+    gN.append(c,t);
+  });
+  svg.append(gE,gN);
+  document.getElementById('gleg').innerHTML=TYPES.map(([k,v])=>`<span><i style="background:var(--t-${k})"></i>${v}</span>`).join('')+'<span class="muted">圓越大＝連結越多</span>';
+})();
+
+function flowKit(g){
+  return {
+    box:(cx,cy,label,cls='')=>{g.appendChild(el('rect',{x:cx-52,y:cy-27,width:104,height:54,rx:10,class:'pbox '+cls}));g.appendChild(el('text',{x:cx,y:cy+6,'text-anchor':'middle',class:'ptxt'},label));},
+    dia:(cx,cy,label,cap,human)=>{const D=30;g.appendChild(el('path',{d:`M${cx} ${cy-D} L${cx+D} ${cy} L${cx} ${cy+D} L${cx-D} ${cy} Z`,class:'pdia'+(human?' human':'')}));g.appendChild(el('text',{x:cx,y:cy+5,'text-anchor':'middle',class:'pdtx'},label));if(cap)g.appendChild(el('text',{x:cx,y:cy+D+17,'text-anchor':'middle',class:'pcap'},cap));},
+    fw:(x1,y1,x2,y2)=>g.appendChild(el('line',{x1,y1,x2,y2,class:'pfw','marker-end':'url(#ah)'})),
+    back:(d,lbl,lx,ly,color,mk)=>{g.appendChild(el('path',{d,class:'pback',stroke:color,'marker-end':`url(#${mk})`}));g.appendChild(el('text',{x:lx,y:ly,'text-anchor':'middle',class:'plbl',fill:color},lbl));}
+  };
+}
+
+(function drawFlowA(){
+  const svg=document.getElementById('flowA'); svg.insertAdjacentHTML('afterbegin',MARKERS);
+  const g=svg.querySelector('g'), k=flowKit(g), Y=95, Y2=255, cx=i=>70+140*i;
+  const W='var(--warn)', R='var(--t-comparison)';
+  const row=[['dia','R0','需求確認',1],['box','選素材'],['box','raw 筆記'],['box','讀資料'],['dia','D1','討論重點',1],['box','生成'],['dia','K','check_wiki',0],['box','收尾']];
+  const half=r=>r[0]==='box'?52:30;
+  for(let i=0;i<row.length-1;i++)k.fw(cx(i)+half(row[i]),Y,cx(i+1)-half(row[i+1])-1,Y);
+  row.forEach((r,i)=>r[0]==='box'?k.box(cx(i),Y,r[1],i===7?'end':''):k.dia(cx(i),Y,r[1],r[2],r[3]));
+  // loops above
+  k.back(`M${cx(4)} ${Y-30} C${cx(4)} ${Y-80}, ${cx(3)} ${Y-80}, ${cx(3)} ${Y-27}`,'要改',(cx(3)+cx(4))/2,Y-70,W,'ahw');
+  k.back(`M${cx(6)} ${Y-30} C${cx(6)} ${Y-80}, ${cx(5)} ${Y-80}, ${cx(5)} ${Y-27}`,'不通過',(cx(5)+cx(6))/2,Y-70,R,'ahr');
+  // row 2: 收尾 -> Lint -> D3
+  k.fw(cx(7),Y+27,cx(7),Y2-28);
+  k.box(cx(7),Y2,'Lint');
+  k.fw(cx(7)-52,Y2,cx(6)+31,Y2);
+  k.dia(cx(6),Y2,'D3','',1);
+  g.appendChild(el('text',{x:cx(6),y:Y2+48,'text-anchor':'middle',class:'pcap'},'人決定修哪些'));
+  k.back(`M${cx(6)-30} ${Y2} C${cx(5)} ${Y2}, ${cx(5)} ${Y2-40}, ${cx(5)} ${Y+28}`,'修頁面',cx(5)-36,Y2-50,W,'ahw');
+  k.back(`M${cx(6)} ${Y2+30} C${cx(6)} ${Y2+70}, ${cx(1)} ${Y2+70}, ${cx(1)} ${Y+28}`,'補資料',(cx(1)+cx(6))/2,Y2+46,W,'ahw');
+})();
+
+(function drawPipe(){
+  const svg=document.getElementById('pipe'); svg.insertAdjacentHTML('afterbegin',MARKERS);
+  const g=document.getElementById('pipe-g'), Y=120, BW=118, BH=56, D=30, OX=120;
+  const stages=['快照','大綱','內容','HTML','審閱','發佈'];
+  const checks=[['C0',0],['C1',1],['C2',1],['C3',0],['C4',1]];
+  const bx=i=>OX+i*200, dc=i=>OX+i*200+159;
+  // R0
+  g.appendChild(el('path',{d:`M34 ${Y-D} L${34+D} ${Y} L34 ${Y+D} L${34-D} ${Y} Z`,class:'pdia human new'}));
+  g.appendChild(el('text',{x:34,y:Y+5,'text-anchor':'middle',class:'pdtx'},'R0'));
+  g.appendChild(el('text',{x:2,y:Y-D-10,'text-anchor':'start',class:'plbl',fill:'var(--t-comparison)'},'R0 新增'));
+  g.appendChild(el('line',{x1:34+D,y1:Y,x2:bx(0)-1,y2:Y,class:'pfw','marker-end':'url(#ah)'}));
+  for(let i=0;i<5;i++){
+    g.appendChild(el('line',{x1:bx(i)+BW,y1:Y,x2:dc(i)-D-1,y2:Y,class:'pfw','marker-end':'url(#ah)'}));
+    g.appendChild(el('line',{x1:dc(i)+D,y1:Y,x2:bx(i+1)-1,y2:Y,class:'pfw','marker-end':'url(#ah)'}));
+  }
+  stages.forEach((s,i)=>{
+    g.appendChild(el('rect',{x:bx(i),y:Y-BH/2,width:BW,height:BH,rx:10,class:'pbox'+(i===5?' end':'')}));
+    g.appendChild(el('text',{x:bx(i)+12,y:Y-BH/2+17,class:'pnum'},String(i)));
+    g.appendChild(el('text',{x:bx(i)+BW/2,y:Y+10,'text-anchor':'middle',class:'ptxt'},s));
+  });
+  checks.forEach(([c,h],i)=>{
+    const x=dc(i);
+    g.appendChild(el('path',{d:`M${x} ${Y-D} L${x+D} ${Y} L${x} ${Y+D} L${x-D} ${Y} Z`,class:'pdia'+(h?' human':'')}));
+    g.appendChild(el('text',{x,y:Y+5,'text-anchor':'middle',class:'pdtx'},c));
+  });
+  const k=flowKit(g), W='var(--warn)', R='var(--t-comparison)', B=Y+BH/2, T=Y-BH/2;
+  k.back(`M${dc(0)} ${Y-D} C${dc(0)} ${T-50}, ${bx(0)+BW/2} ${T-50}, ${bx(0)+BW/2} ${T}`,'不通過 → lint',(dc(0)+bx(0)+BW/2)/2,T-46,R,'ahr');
+  k.back(`M${dc(2)} ${Y-D} C${dc(2)} ${T-60}, ${bx(1)+BW/2} ${T-60}, ${bx(1)+BW/2} ${T}`,'故事線問題',(dc(2)+bx(1)+BW/2)/2,T-52,W,'ahw');
+  k.back(`M${dc(3)} ${Y-D} C${dc(3)} ${T-50}, ${bx(3)+BW-20} ${T-50}, ${bx(3)+BW-20} ${T}`,'自動修正 ≤ 3 輪',(dc(3)+bx(3)+BW-20)/2+6,T-46,R,'ahr');
+  [[3,'版面問題',58],[2,'內容問題',108],[1,'故事線問題',158]].forEach(([s,l,dep])=>{
+    const x2=bx(s)+BW/2, x1=dc(4), Yc=B+dep;
+    k.back(`M${x1} ${Y+D} C${x1} ${Yc}, ${x2} ${Yc}, ${x2} ${B}`,l,(x1+x2)/2,B+0.75*dep+18,W,'ahw');
+  });
+})();
+
+(function drawHbars(){
+  const d=[['製作 HTML',10,'C3 自動抓到',0],['逐頁內容',7,'C2 自動抓到',0],['生成 wiki 頁',3,'D1＋K 抓到',0],['快照',1,'到階段 3 才發現',0],['討論重點',1,'事後才發現',0],['大綱',1,'沒有檢查抓到 → 整份重做',1]];
+  document.getElementById('hbars').innerHTML=d.map(([n,v,c,hot])=>`<div class="hb${hot?' hot':''}"><span class="n">${n}</span><span class="t"><span class="f" style="width:${v/10*100}%"></span></span><span class="v">${v}</span><span class="c">${c}</span></div>`).join('');
+})();
+
+const slides=[...document.querySelectorAll('.slide')], stage=document.getElementById('stage'), nb=document.getElementById('notesbox');
+let cur=0;
+slides.forEach((s,i)=>{ if(i>0&&!s.classList.contains('title-slide')){const p=document.createElement('div');p.className='pageno';p.textContent=String(i+1).padStart(2,'0');s.appendChild(p);} });
+function show(i){
+  cur=Math.max(0,Math.min(slides.length-1,i));
+  slides.forEach((s,j)=>s.classList.toggle('active',j===cur));
+  document.getElementById('count').textContent=`${cur+1} / ${slides.length}`;
+  document.querySelector('#bar i').style.width=((cur+1)/slides.length*100)+'%';
+  const n=slides[cur].querySelector('.notes'); nb.textContent=n?n.textContent:'';
+  if(location.hash!=='#'+(cur+1)) history.replaceState(null,'','#'+(cur+1));
+}
+function fit(){ const s=Math.min(innerWidth/1320, innerHeight/760); stage.style.transform=`translate(-50%,-50%) scale(${s})`; }
+addEventListener('resize',fit); fit();
+const toggleFS=()=>{document.fullscreenElement?document.exitFullscreen():document.documentElement.requestFullscreen?.()};
+const toggleNotes=()=>document.body.classList.toggle('show-notes');
+addEventListener('keydown',e=>{
+  if(['ArrowRight','PageDown',' ','Enter'].includes(e.key)){e.preventDefault();show(cur+1)}
+  else if(['ArrowLeft','PageUp','Backspace'].includes(e.key)){e.preventDefault();show(cur-1)}
+  else if(e.key==='Home')show(0); else if(e.key==='End')show(slides.length-1);
+  else if(e.key==='f'||e.key==='F')toggleFS();
+  else if(e.key==='n'||e.key==='N')toggleNotes();
+});
+document.getElementById('prev').onclick=()=>show(cur-1);
+document.getElementById('next').onclick=()=>show(cur+1);
+document.getElementById('fs').onclick=toggleFS;
+document.getElementById('notes').onclick=toggleNotes;
+let tx=null; addEventListener('touchstart',e=>tx=e.touches[0].clientX,{passive:true});
+addEventListener('touchend',e=>{if(tx===null)return;const d=e.changedTouches[0].clientX-tx;if(Math.abs(d)>50)show(cur+(d<0?1:-1));tx=null});
+addEventListener('hashchange',()=>{const n=(parseInt(location.hash.slice(1))||1)-1; if(n!==cur)show(n)});
+show((parseInt(location.hash.slice(1))||1)-1);
+</script>
+</body>
+</html>
