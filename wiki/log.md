@@ -103,3 +103,8 @@
 - 操作者：苡瑄＋Claude Code（使用者回報）
 - 修改：`slides/game-industry-wiki.html` 流程圖 A 下半部「補資料」「人決定修哪些」「修頁面」三個標籤重新排位，線上標籤加描邊
 - 修改頁面：無
+
+## [2026-11-10] export | 簡報換色系＋可愛裝飾
+- 操作者：苡瑄＋Claude Code（使用者要求）
+- 修改：`slides/game-industry-wiki.html` 改用 colorhunt 色系（F6E2E9／FEFAF3／B8CFB3／84A282），加入原創的笑臉掌機、星星、像素愛心等裝飾
+- 修改頁面：無
