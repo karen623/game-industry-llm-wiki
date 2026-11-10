@@ -417,11 +417,11 @@ tr.badrow td{background:var(--bad-soft);color:var(--ink)}
   <p class="lead" style="margin-bottom:14px">最常錯：<strong>製作 HTML</strong>；代價最大：<strong style="color:var(--warn)">需求／大綱</strong></p>
   <div class="hbars" id="hbars"></div>
   <div class="grid2" style="margin-top:16px;gap:18px">
-    <div class="card"><p><strong>最常錯＝製作 HTML（11 次）</strong><br>C3 自動抓到，幾分鐘修好，代價低</p></div>
+    <div class="card"><p><strong>最常錯＝製作 HTML（12 次）</strong><br>C3 自動抓到，幾分鐘修好，代價低</p></div>
     <div class="card warn"><p><strong>代價最大＝需求／大綱（2 次）</strong><br>沒有檢查抓到：簡報重做、主題重做</p></div>
   </div>
   <p class="src">來源：<code>reports/reflection.md</code></p>
-  <aside class="notes" data-n="13">最常出錯的是製作 HTML，11 次，但都是排版問題，自動檢查幾分鐘就修好。代價最大的是最上游的需求和大綱，只錯兩次：一次是簡報定位錯，整份重做；一次是我把 LLM Wiki 的方法和主題搞混，整個主題重做。這兩次都沒有任何檢查抓到。</aside>
+  <aside class="notes" data-n="13">最常出錯的是製作 HTML，12 次，但都是排版問題，自動檢查幾分鐘就修好。代價最大的是最上游的需求和大綱，只錯兩次：一次是簡報定位錯，整份重做；一次是我把 LLM Wiki 的方法和主題搞混，整個主題重做。這兩次都沒有任何檢查抓到。</aside>
 </section>
 
 <!-- 14 -->
@@ -564,8 +564,8 @@ function flowKit(g){
 })();
 
 (function drawHbars(){
-  const d=[['製作 HTML',11,'C3 自動抓到',0],['逐頁內容',7,'C2 自動抓到',0],['生成 wiki 頁',3,'D1＋K 抓到',0],['自動檢查本身',2,'試跑時發現',0],['快照',1,'到階段 3 才發現',0],['raw 筆記',1,'生成時人工比對',0],['討論重點',1,'事後才發現',0],['需求／大綱',2,'沒有檢查抓到 → 簡報、主題重做',1]];
-  document.getElementById('hbars').innerHTML=d.map(([n,v,c,hot])=>`<div class="hb${hot?' hot':''}"><span class="n">${n}</span><span class="t"><span class="f" style="width:${v/11*100}%"></span></span><span class="v">${v}</span><span class="c">${c}</span></div>`).join('');
+  const d=[['製作 HTML',12,'C3 自動抓到',0],['逐頁內容',7,'C2 自動抓到',0],['生成 wiki 頁',3,'D1＋K 抓到',0],['自動檢查本身',2,'試跑時發現',0],['快照',1,'到階段 3 才發現',0],['raw 筆記',1,'生成時人工比對',0],['討論重點',1,'事後才發現',0],['需求／大綱',2,'沒有檢查抓到 → 簡報、主題重做',1]];
+  document.getElementById('hbars').innerHTML=d.map(([n,v,c,hot])=>`<div class="hb${hot?' hot':''}"><span class="n">${n}</span><span class="t"><span class="f" style="width:${v/12*100}%"></span></span><span class="v">${v}</span><span class="c">${c}</span></div>`).join('');
 })();
 
 const slides=[...document.querySelectorAll('.slide')], stage=document.getElementById('stage'), nb=document.getElementById('notesbox');
