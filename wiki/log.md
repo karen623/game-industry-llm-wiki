@@ -93,3 +93,8 @@
 - 產出：`slides/game-industry-wiki.html`（14 頁；知識圖譜 20 節點、76 條連結）；中間產出在 `slides/pipeline/v4/`
 - 同時更新：reports/reflection.md（錯誤次數與新主題的教訓）、reports/check-report.md、requirements.md、README.md
 - 修改頁面：無
+
+## [2026-11-10] export | 簡報新增第 7 頁（15 頁）
+- 操作者：苡瑄＋Claude Code（使用者要求）
+- 修改：`slides/game-industry-wiki.html` 新增「下一季財報進來，wiki 會怎樣？」，說明簡報和 wiki 的關係；依流程 B 的 C4 分流當作故事線問題退回階段 1
+- 修改頁面：無

@@ -210,6 +210,8 @@ tr.badrow td{background:var(--bad-soft);color:var(--ink)}
 @media (prefers-color-scheme: dark){:root:not([data-theme="light"]){--t-company:#8c97ff;--t-platform:#c99af0;--t-franchise:#e0c060}}
 :root[data-theme="dark"]{--t-company:#8c97ff;--t-platform:#c99af0;--t-franchise:#e0c060}
 .bn b{font-size:72px}
+.steps.flow .card{position:relative}
+.steps.flow .card:not(:last-child)::after{content:"→";position:absolute;right:-15px;top:50%;transform:translateY(-50%);color:var(--accent);font-size:20px;font-weight:700}
 </style>
 </head>
 <body>
@@ -314,6 +316,22 @@ tr.badrow td{background:var(--bad-soft);color:var(--ink)}
 </section>
 <!-- 7 -->
 <section class="slide">
+  <div class="kicker">建 Wiki · 以後怎麼追蹤</div>
+  <h2>下一季財報進來，wiki 會怎樣？</h2>
+  <p class="lead">簡報是一次性的成果，<strong>wiki 才是會一直長大的東西</strong></p>
+  <div class="steps flow" style="margin-top:auto">
+    <div class="card"><span class="tag plain">1 存 raw 筆記</span><p>任天堂第 3 季財報</p><p class="small">預計 2027 年 2 月</p></div>
+    <div class="card warn"><span class="tag warn">2 D1 討論</span><p>AI 報告重點</p><p class="small">我決定強調什麼</p></div>
+    <div class="card accent"><span class="tag">3 一次更新多頁</span><p>任天堂、Switch 2、三大主機比較</p><p class="small">回答「⚠️ 待追蹤：全年預測是否保守」</p></div>
+    <div class="card good"><span class="tag good">4 K 檢查＋log</span><p>數字可追溯、連結不斷</p></div>
+  </div>
+  <div class="concl" style="margin-bottom:auto">每季的整理留在 wiki，<strong>查得到出自哪份財報</strong></div>
+  <p class="src">來源：<code>CLAUDE.md</code> 3.1 Ingest 流程 · <code>nintendo</code>（⚠️ 待追蹤）</p>
+  <aside class="notes" data-n="7">簡報只是一次性的成果，wiki 才是會一直長大的東西。以後任天堂發布第 3 季財報，我只要把重點整理成筆記、說 ingest，AI 先報告重點讓我確認，再一次更新任天堂、Switch 2、三大主機比較這些頁面。任天堂頁上現在有一條待追蹤：全年預測是不是太保守，到時候就能用新財報回答。幾季之後，問「任天堂利潤率怎麼變」，直接查 wiki 就有答案，而且每個數字都查得到出自哪一份財報。</aside>
+</section>
+
+<!-- 8 -->
+<section class="slide">
   <div class="kicker">繳交 · AGENTS.md</div>
   <h2>AGENTS.md：給 AI 的規則</h2>
   <p class="lead">規則跟著主題調整：<strong>新增數字規則</strong></p>
@@ -336,30 +354,30 @@ tr.badrow td{background:var(--bad-soft);color:var(--ink)}
     </ul>
   </div>
   <p class="src">來源：<code>AGENTS.md</code> · <code>CLAUDE.md</code></p>
-  <aside class="notes" data-n="7">AGENTS.md 是所有 AI 工具的入口，規則本體在 CLAUDE.md。換成財報主題後，我加了數字規則：每個數字都要寫期間，因為三家的會計年度不一樣；只有新聞報導的數字要標非官方，預測值也要標出來。</aside>
+  <aside class="notes" data-n="8">AGENTS.md 是所有 AI 工具的入口，規則本體在 CLAUDE.md。換成財報主題後，我加了數字規則：每個數字都要寫期間，因為三家的會計年度不一樣；只有新聞報導的數字要標非官方，預測值也要標出來。</aside>
 </section>
 
-<!-- 8 -->
+<!-- 9 -->
 <section class="slide">
   <div class="kicker">繳交 · workflow 流程圖</div>
   <h2>流程圖 A：建 wiki</h2>
   <p class="lead" style="margin-bottom:6px">生成前<strong>討論</strong>、生成後<strong>自動檢查</strong></p>
   <svg id="flowA" viewBox="0 0 1120 330" style="width:100%;height:auto;margin-top:auto;margin-bottom:auto" role="img" aria-label="建 wiki 的流程圖"><g></g></svg>
   <p class="src">橘色菱形＝人工討論／決定，灰色菱形＝自動檢查。Query 的好答案存回 <code>queries/</code> 後也要重跑 K。來源：<code>workflows/wiki-workflow.md</code></p>
-  <aside class="notes" data-n="8">建 wiki 的流程裡，每個生成步驟前都有人工討論 D1，生成後有自動檢查 K。K 不通過就退回重新生成；lint 找到的缺口，由我決定要補資料還是修頁面。</aside>
+  <aside class="notes" data-n="9">建 wiki 的流程裡，每個生成步驟前都有人工討論 D1，生成後有自動檢查 K。K 不通過就退回重新生成；lint 找到的缺口，由我決定要補資料還是修頁面。</aside>
 </section>
 
-<!-- 9 -->
+<!-- 10 -->
 <section class="slide">
   <div class="kicker">繳交 · workflow 流程圖</div>
   <h2>流程圖 B：做簡報</h2>
   <p class="lead" style="margin-bottom:6px">需求關卡＋6 個階段＋5 道檢查，<strong>不通過就退回</strong></p>
   <svg id="pipe" viewBox="0 0 1240 300" style="width:100%;height:auto;margin-top:auto;margin-bottom:auto" role="img" aria-label="做簡報的流程圖"><g id="pipe-g"></g></svg>
   <p class="src">橘色菱形＝需要人工確認。<strong style="color:var(--t-comparison)">R0 是後來新增的</strong>。來源：<code>slides/pipeline/README.md</code></p>
-  <aside class="notes" data-n="9">做簡報的流程有 6 個階段、5 道檢查，審閱發現的問題會依類型退回不同階段。最前面的 R0 需求確認，是我做完第一版之後才加上去的，原因在反思會講。</aside>
+  <aside class="notes" data-n="10">做簡報的流程有 6 個階段、5 道檢查，審閱發現的問題會依類型退回不同階段。最前面的 R0 需求確認，是我做完第一版之後才加上去的，原因在反思會講。</aside>
 </section>
 
-<!-- 10 -->
+<!-- 11 -->
 <section class="slide">
   <div class="kicker">繳交 · 檢查報告①</div>
   <h2>一次實際執行（流程 A）</h2>
@@ -371,9 +389,9 @@ tr.badrow td{background:var(--bad-soft);color:var(--ink)}
     <div class="card good"><span class="tag good">K 第 2 輪 ✅</span><p>8／8 通過</p><p class="small">第 8 項先誤報 10 個 → 修正檢查程式</p></div>
   </div>
   <p class="src">來源：<code>reports/ingest-run-game-industry-2026-11-10.md</code> · <code>scripts/check_wiki.py</code></p>
-  <aside class="notes" data-n="10">換主題後我照流程 A 跑了一次。AI 先問我範圍、舊內容怎麼處理、要怎麼討論；接著報告 5 份資料的重點，我決定要強調什麼。自動檢查原本 7 項一次就過，但我發現沒有一項在查數字，所以加了第 8 項：每個數字都要在原始筆記找得到。第一次跑出 10 個警告，結果全是檢查程式自己的誤判，修好後全部通過。</aside>
+  <aside class="notes" data-n="11">換主題後我照流程 A 跑了一次。AI 先問我範圍、舊內容怎麼處理、要怎麼討論；接著報告 5 份資料的重點，我決定要強調什麼。自動檢查原本 7 項一次就過，但我發現沒有一項在查數字，所以加了第 8 項：每個數字都要在原始筆記找得到。第一次跑出 10 個警告，結果全是檢查程式自己的誤判，修好後全部通過。</aside>
 </section>
-<!-- 11 -->
+<!-- 12 -->
 <section class="slide">
   <div class="kicker">繳交 · 檢查報告②</div>
   <h2>流程 B 每道關卡</h2>
@@ -388,10 +406,10 @@ tr.badrow td{background:var(--bad-soft);color:var(--ink)}
     <tr class="badrow"><td>發佈後</td><td>❌</td><td>簡報在介紹自己怎麼做，不是在交作業</td></tr>
   </table>
   <p class="src">第一個主題（Prompt Engineering）的簡報 v2。來源：<code>reports/check-report.md</code></p>
-  <aside class="notes" data-n="11">這是我第一個主題做簡報時的紀錄。每一道關卡都有抓到問題、也都修好了，但發佈後我發現簡報在介紹自己怎麼做，而不是在交作業。所有檢查都在問「做得對不對」，沒有一關在問「做的是不是對的東西」。</aside>
+  <aside class="notes" data-n="12">這是我第一個主題做簡報時的紀錄。每一道關卡都有抓到問題、也都修好了，但發佈後我發現簡報在介紹自己怎麼做，而不是在交作業。所有檢查都在問「做得對不對」，沒有一關在問「做的是不是對的東西」。</aside>
 </section>
 
-<!-- 12 -->
+<!-- 13 -->
 <section class="slide">
   <div class="kicker">反思</div>
   <h2>哪個節點最常出錯？</h2>
@@ -402,10 +420,10 @@ tr.badrow td{background:var(--bad-soft);color:var(--ink)}
     <div class="card warn"><p><strong>代價最大＝需求／大綱（2 次）</strong><br>沒有檢查抓到：簡報重做、主題重做</p></div>
   </div>
   <p class="src">來源：<code>reports/reflection.md</code></p>
-  <aside class="notes" data-n="12">最常出錯的是製作 HTML，11 次，但都是排版問題，自動檢查幾分鐘就修好。代價最大的是最上游的需求和大綱，只錯兩次：一次是簡報定位錯，整份重做；一次是我把 LLM Wiki 的方法和主題搞混，整個主題重做。這兩次都沒有任何檢查抓到。</aside>
+  <aside class="notes" data-n="13">最常出錯的是製作 HTML，11 次，但都是排版問題，自動檢查幾分鐘就修好。代價最大的是最上游的需求和大綱，只錯兩次：一次是簡報定位錯，整份重做；一次是我把 LLM Wiki 的方法和主題搞混，整個主題重做。這兩次都沒有任何檢查抓到。</aside>
 </section>
 
-<!-- 13 -->
+<!-- 14 -->
 <section class="slide">
   <div class="kicker">反思</div>
   <h2>檢查往前移到了哪裡？</h2>
@@ -419,9 +437,9 @@ tr.badrow td{background:var(--bad-soft);color:var(--ink)}
   </div>
   <div class="concl">錯誤越上游，下游越抓不到</div>
   <p class="src">來源：<code>reports/reflection.md</code></p>
-  <aside class="notes" data-n="13">所以我把檢查往前移。最重要的是 R0：需求和主題沒確認清楚，流程不准開始。另外，檢查項目要跟著主題調整，財報主題就要檢查數字。學到的一句話是：錯誤越上游，下游越抓不到。</aside>
+  <aside class="notes" data-n="14">所以我把檢查往前移。最重要的是 R0：需求和主題沒確認清楚，流程不准開始。另外，檢查項目要跟著主題調整，財報主題就要檢查數字。學到的一句話是：錯誤越上游，下游越抓不到。</aside>
 </section>
-<!-- 14 -->
+<!-- 15 -->
 <section class="slide title-slide">
   <div class="kicker">結尾</div>
   <h1 style="font-size:46px">收穫與繳交位置</h1>
@@ -440,7 +458,7 @@ reports/             檢查報告、反思
 wiki/                知識庫本體</pre>
   </div>
   <p class="meta">謝謝聆聽</p>
-  <aside class="notes" data-n="14">最後總結三個收穫。所有繳交的檔案，包括需求摘要、AGENTS.md、兩張流程圖、檢查報告和反思，都放在 GitHub repo 裡。謝謝大家。</aside>
+  <aside class="notes" data-n="15">最後總結三個收穫。所有繳交的檔案，包括需求摘要、AGENTS.md、兩張流程圖、檢查報告和反思，都放在 GitHub repo 裡。謝謝大家。</aside>
 </section>
 
 </div></div>
@@ -450,7 +468,7 @@ wiki/                知識庫本體</pre>
 <div id="nav">
   <button id="notes" aria-label="講稿" title="講稿（N）">✎</button>
   <button id="prev" aria-label="上一頁">‹</button>
-  <span id="count">1 / 14</span>
+  <span id="count">1 / 15</span>
   <button id="next" aria-label="下一頁">›</button>
   <button id="fs" aria-label="全螢幕" title="全螢幕（F）">⛶</button>
 </div>
