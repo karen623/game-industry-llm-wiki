@@ -5,20 +5,20 @@
 - 這份文件是整個流程的**第一道關卡（R0 需求確認）**：需求沒確認，後面的流程（ingest、做簡報）都不往下走。
 
 ## 1. 目標
-用「先討論、後生成」的方式，建立一份以 **Prompt Engineering（提示工程）** 為主題的 LLM Wiki，
+用「先討論、後生成」的方式，建立一份**追蹤電子遊戲產業（以任天堂為主，比較 Sony、Microsoft）**的 LLM Wiki，
 並把「建 wiki」和「做簡報」這兩件工作拆成 **AI 能執行、人能檢查** 的流程。
 
 ## 2. 作業要求 → 對應產出
 | # | 作業要求 | 對應檔案 | 驗收標準 | 狀態 |
 |---|---|---|---|---|
-| 1 | 建 Wiki，至少 ingest 5 篇 | `wiki/`、`raw/`、`sources.md` | ≥ 5 篇；每篇都有來源摘要頁；C0 健康檢查通過 | ✅ 8 篇 |
-| 2 | 「先討論、後生成」 | `wiki/log.md` | 每次 ingest 前都有「AI 報告重點 → 人決定強調什麼」的紀錄 | ✅ 已補討論（reports/ingest-run-2026-11-10.md） |
+| 1 | 建 Wiki，至少 ingest 5 篇 | `wiki/`、`raw/`、`sources.md` | ≥ 5 篇；每篇都有來源摘要頁；C0 健康檢查通過 | ✅ 新主題 5 篇（21 頁、76 條連結） |
+| 2 | 「先討論、後生成」 | `wiki/log.md` | 每次 ingest 前都有「AI 報告重點 → 人決定強調什麼」的紀錄 | ✅ 5 篇一次報告、使用者確認（reports/d1-game-industry-2026-11-10.md） |
 | 3 | 需求摘要 | `requirements.md`（本檔） | 列出要求、產出、驗收標準、限制 | ✅ 本檔 |
 | 4 | AGENTS.md | `AGENTS.md` | 任何 AI 工具打開資料夾都能找到規則；規則本體維持在 `CLAUDE.md` | ✅ 已新增（指向 CLAUDE.md） |
 | 5 | workflow 流程圖 | A：建 wiki 流程（待畫）；B：`slides/pipeline/README.md` | 兩張圖都要標出**節點、檢查關卡、退回路徑、人工確認點** | ✅ A：workflows/wiki-workflow.md；B：v0.2 加上 R0 |
 | 6 | 一次實際執行的檢查報告 | `reports/check-report.md` | 有真實的輸入、每個關卡的檢查結果、發現的問題與修正 | ✅ |
 | 7 | 反思：哪個節點最常出錯？檢查往前移到哪裡？ | `reports/reflection.md` | 用實際發生的錯誤回答，不用假設的例子 | ✅ |
-| 8 | HTML 簡報 | `slides/prompt-engineering-wiki-v3.html` | 依作業結構呈現 1–7；通過簡報流程的 C1–C4 | ✅ v3 已發佈 |
+| 8 | HTML 簡報 | `slides/game-industry-wiki.html` | 依作業結構呈現 1–7；通過簡報流程的 C1–C4 | ✅ 新主題 v4 已發佈（舊主題 v1–v3 留在 git 歷史） |
 | 9 | 交 GitHub | 新的 GitHub repo | 整個資料夾可以直接在 repo 上瀏覽；`raw/` 不含受著作權保護的全文 | ❌ 資料夾還不是 git repo |
 
 ## 3. 限制
@@ -44,5 +44,6 @@
 - ~~`CLAUDE.md` 的「組員」與組上專案用途說明~~ → ✅ 已確認是個人作業，2026-11-10 經同意修改
 
 ## 修改紀錄
+- v0.2（2026-11-10）：**主題改為電子遊戲產業追蹤（任天堂為主）**。使用者決定：範圍＝任天堂＋對手比較；舊 Prompt Engineering 內容直接刪除；新資料 5 篇一次報告、一次確認。
 - v0.1（2026-11-10）：初稿。
 - v0.1.1（2026-11-10）：使用者同意修改 CLAUDE.md：「組員」改為「使用者」，刪除組上專案用途說明。

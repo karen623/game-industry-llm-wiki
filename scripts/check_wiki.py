@@ -8,8 +8,9 @@ import re
 import sys
 
 ROOT = os.path.join(os.path.dirname(os.path.abspath(__file__)), "..", "wiki")
-FOLDERS = {"sources": "source", "techniques": "technique", "concepts": "concept",
-           "models": "model", "comparisons": "comparison", "queries": "query"}
+FOLDERS = {"sources": "source", "companies": "company", "platforms": "platform",
+           "franchises": "franchise", "concepts": "concept", "comparisons": "comparison",
+           "queries": "query"}
 REQUIRED = ["title", "type", "tags", "sources", "updated"]
 LINK = re.compile(r"\[\[([^\]|#]+)")
 
@@ -85,6 +86,25 @@ m = re.search(r"(\d+)\s*個頁面", index)
 claimed = int(m.group(1)) if m else None
 results.append(("index 宣稱的頁數＝實際頁數（分類加總＋總覽）", claimed == total,
                 f"index 寫 {claimed}，實際 {total}（" + "、".join(f"{k} {v}" for k, v in sorted(by_type.items())) + "＋總覽 1）"))
+
+# 6 numbers traceable to raw (added for the game-industry topic)
+raw_text = ""
+for f in glob.glob(os.path.join(ROOT, "..", "raw", "**", "*.md"), recursive=True):
+    raw_text += open(f, encoding="utf-8").read()
+raw_norm = raw_text.replace(",", "")
+NUM = re.compile(r"[+−-]?\d[\d,]*\.?\d*(?:%|M)")
+untraced = []
+for p, (_, _, t) in pages.items():
+    body = re.sub(r"^---\n.*?\n---\n", "", t, flags=re.S)
+    for line in body.splitlines():
+        if "計算" in line or "推論" in line:
+            continue
+        for n in NUM.findall(line):
+            core = n.lstrip("+−-").replace(",", "").rstrip("M")  # raw 寫「6.49 百萬台」，wiki 寫 6.49M
+            if core not in raw_norm:
+                untraced.append(f"{p}: {n}")
+results.append(("數字都能在 raw 筆記找到（計算值要標「計算」）", not untraced,
+                "、".join(untraced[:10]) or "OK"))
 
 # stats
 edges = {tuple(sorted((a, b))) for a, ls in out.items() for b in ls if b in pages}

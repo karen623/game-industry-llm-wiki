@@ -72,3 +72,24 @@
 - 產出：`slides/prompt-engineering-wiki-v3.html`（14 頁，照作業結構：建 Wiki → 繳交 → 反思）；中間產出在 `slides/pipeline/v3/`
 - 同時新增：workflows/wiki-workflow.md（流程圖 A）、reports/check-report.md、reports/reflection.md；流程 B 升到 v0.2（加入 R0 需求關卡）
 - 修改頁面：無
+
+## [2026-11-10] schema | 換主題：Prompt Engineering → 電子遊戲產業追蹤（任天堂為主）
+- 操作者：苡瑄＋Claude Code（使用者決定換主題、刪除舊內容）
+- 刪除：舊主題的 raw 筆記 8 份、wiki 頁面 29 頁、簡報 v1–v3 與 v2/v3 的流程中間檔（保留在 git commit 8adbb77）
+- 修改：CLAUDE.md（主題、資料夾改為 companies／platforms／franchises、新增數字規則 2.3.1）、scripts/check_wiki.py、requirements.md、sources.md
+- 保留：本 log 的舊紀錄（依規則不刪）、流程圖 A／B、reports/（舊主題的執行紀錄，作為流程的歷史）
+- 新增 raw 筆記 5 份（尚未 ingest，等待 D1 討論）
+
+## [2026-11-10] ingest | 任天堂上半年財報、任天堂 IR 銷量、Sony FY2026 Q2、Microsoft FY27 Q1、Newzoo 2026 預測
+- 操作者：苡瑄＋Claude Code（D1：5 篇一次報告，使用者確認後生成）
+- 新增頁面：sources/ 5 頁；companies/nintendo、sony、microsoft-gaming；platforms/switch-2、switch、ps5、xbox-series；
+  franchises/mario-kart、pokemon；concepts/fiscal-year、installed-base、digital-sales、console-lifecycle；
+  comparisons/big-three-consoles；queries/2026-why-nintendo-profit-up；overview、index 重寫
+- 檢查：check_wiki.py 新增第 8 項「數字可追溯到 raw」；第 1 輪誤報 10 個（單位寫法不同），修正後 8／8 通過
+- 備註：PS5 台數、Xbox 硬體 −14% 為非官方；PS5 Q2 台數有 2.6M／3.3M 兩種說法，已並列。詳見 reports/ingest-run-game-industry-2026-11-10.md
+
+## [2026-11-10] export | HTML 簡報 v4（新主題：電子遊戲產業）
+- 操作者：苡瑄＋Claude Code（沿用「直接做」，人工關卡改為記錄）
+- 產出：`slides/game-industry-wiki.html`（14 頁；知識圖譜 20 節點、76 條連結）；中間產出在 `slides/pipeline/v4/`
+- 同時更新：reports/reflection.md（錯誤次數與新主題的教訓）、reports/check-report.md、requirements.md、README.md
+- 修改頁面：無

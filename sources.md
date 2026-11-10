@@ -1,42 +1,24 @@
 # 素材清單（sources）
 
-> ⚠️ 著作權：repo 若會公開到 GitHub，`raw/` 只放**自己整理的剪輯筆記**（附原始網址），不要放論文全文或整篇文章。
+> ⚠️ 著作權：repo 會公開到 GitHub，`raw/` 只放**自己整理的重點筆記**（附原始網址），不放財報 PDF 或文章全文。
+> 數字規則：官方來源優先；只有新聞報導的數字要標「（非官方）」。
 
-把素材下載／轉存到 `raw/` 對應資料夾後，跟 AI 說「ingest raw/xxx」，完成後把 `[ ]` 改成 `[x]`。
+把素材整理成筆記放進 `raw/` 後，跟 AI 說「ingest raw/xxx」，完成後把 `[ ]` 改成 `[x]`。
 
-**轉存建議**：網頁可以用瀏覽器擴充套件（例如 Obsidian Web Clipper、MarkDownload）存成 `.md`；
-論文放 PDF 即可。檔名用英文小寫加 `-`。
+## A. 官方財報與銷售數據（→ raw/official/）
+- [x] 任天堂 2027 年 3 月期上半年財報（2026-11-05）→ `raw/official/2026-nintendo-h1-fy2027-earnings.md`
+- [x] 任天堂 IR 主機銷量與暢銷軟體（截至 2026-09-30）→ `raw/official/2026-nintendo-sales-units.md`
+- [x] Sony FY2026 Q2 財報（G&NS 部門，2026-11-05）→ `raw/official/2026-sony-q2-fy2026-results.md`
+- [x] Microsoft FY27 Q1 財報（Xbox，2026-10-28）→ `raw/official/2026-microsoft-q1-fy27-results.md`
+- [ ] 任天堂 2026 年 3 月期全年財報（2026-05）
+- [ ] 任天堂經營方針說明會／投資人問答
+- [ ] Sony 補充資料（PS5 出貨台數、PSN 月活躍用戶）
 
-## A. 官方指南（→ raw/guides/）
-- [x] Anthropic — Prompting best practices（platform.claude.com）→ `raw/guides/anthropic-prompting-best-practices.md`（2026-11-10 ingest）
-- [ ] Anthropic — Prompt Engineering Interactive Tutorial（GitHub：anthropics/prompt-eng-interactive-tutorial）
-- [x] OpenAI — Prompt engineering guide（developers.openai.com）→ `raw/guides/openai-prompt-engineering-guide.md`（2026-11-10 ingest）
-- [ ] Google — Gemini API Prompting strategies（ai.google.dev）
-- [ ] Google — *Prompt Engineering* 白皮書（Lee Boonstra）
+## B. 市場研究（→ raw/reports/）
+- [x] Newzoo 2026 全球遊戲市場預測 → `raw/reports/2026-newzoo-global-games-market.md`
+- [ ] Circana（美國市場月銷售排行）
+- [ ] Famitsu（日本週銷量）
 
-## B. 經典論文（→ raw/papers/）
-- [ ] Brown et al. 2020 — Language Models are Few-Shot Learners（arXiv:2005.14165）
-- [x] Wei et al. 2022 — Chain-of-Thought Prompting Elicits Reasoning in LLMs（arXiv:2201.11903）→ `raw/papers/2022-wei-cot.md`（2026-11-10 ingest）
-- [x] Kojima et al. 2022 — Large Language Models are Zero-Shot Reasoners（arXiv:2205.11916）→ `raw/papers/2022-kojima-zero-shot-cot.md`（2026-11-10 ingest）
-- [x] Wang et al. 2022 — Self-Consistency Improves Chain of Thought Reasoning（arXiv:2203.11171）→ `raw/papers/2022-wang-self-consistency.md`（2026-11-10 ingest）
-- [x] Yao et al. 2022 — ReAct: Synergizing Reasoning and Acting（arXiv:2210.03629）→ `raw/papers/2022-yao-react.md`（2026-11-10 ingest）
-- [ ] Yao et al. 2023 — Tree of Thoughts（arXiv:2305.10601）
-- [ ] Liu et al. 2023 — Lost in the Middle（arXiv:2307.03172）
-- [ ] Greshake et al. 2023 — Indirect Prompt Injection（arXiv:2302.12173）
-- [x] Schulhoff et al. 2024 — The Prompt Report（arXiv:2406.06608）→ `raw/papers/2024-schulhoff-prompt-report.md`（2026-11-10 ingest，只讀摘要；全文的 58 種技巧待補）
-
-## C. 教學網站／文章（→ raw/articles/）
-- [ ] DAIR.AI — Prompt Engineering Guide（promptingguide.ai）
-- [ ] Learn Prompting（learnprompting.org）
-- [ ] Anthropic — Building effective agents（部落格）
-- [ ] Anthropic — Effective context engineering for AI agents（部落格）
-- [x] Karpathy — LLM Wiki（GitHub gist，本 wiki 的方法論來源）→ `raw/articles/2026-karpathy-llm-wiki.md`（2026-11-10 ingest）
-
-## D. 影片／演講（→ raw/transcripts/）
-- [ ] 課堂上老師推薦的影片或講義（待補充）
-- [ ] 其他（待補充）
-
-## 建議順序
-
-> 先 ingest **The Prompt Report** 或 **DAIR.AI Guide** 這類「大全型」素材建出骨架，
-> 再 ingest 個別論文補深度，這樣 wiki 長得最快、連結最多。
+## C. 新聞與分析（→ raw/articles/）
+- [ ] Switch 2 首發（2025-06-05）與首年銷售報導
+- [ ] GTA VI 發售對主機市場的影響

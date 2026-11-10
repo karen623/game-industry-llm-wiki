@@ -1,54 +1,40 @@
-# Prompt Engineering Wiki — 總目錄
+# Index — 電子遊戲產業追蹤 LLM Wiki
 
-> 由 AI 維護。每次 ingest 後更新。格式：`- [[頁面]] — 一句話說明`
-> 起點請看 [[overview]]；操作紀錄見 [[log]]。
-> 目前：8 份來源、30 個頁面（含總覽；最後更新 2026-11-10）
+目前：5 份來源、21 個頁面（含總覽；最後更新 2026-11-10）
 
-## 概念（concepts）
-- [[llm-wiki]] — 由 LLM 維護、會累積的知識庫（本 wiki 的方法）
-- [[rag]] — 提問時檢索資料放進 prompt；知識不累積
-- [[hallucination]] — 看似合理但沒根據的內容；目前收錄的對策
-- [[extended-thinking]] — 內建思考／推理模型；CoT 被做進模型本身
-- [[evals]] — 用固定測試量測 prompt；換模型前要重測
-- [[emergent-abilities]] — 能力在模型夠大後才出現
+## 總覽
+- [[overview]] — 三條故事線與主題地圖
 
-## 技巧（techniques）
-**基礎**
-- [[be-clear-and-direct]] — 把模型當新同事：講清楚、說原因；明確程度看模型
-- [[zero-shot-prompting]] — 不給範例、直接下指令
-- [[few-shot-prompting]] — 3–5 個多樣範例控制格式與做法
-- [[role-prompting]] — 設定角色；developer／user 訊息權限
-- [[xml-tags]] — 用標籤與 Markdown 分段；OpenAI 四段結構
+## 公司（companies/）
+- [[nintendo]] — 營收降、利潤升；關稅退款是一次性因素
+- [[sony]] — 遊戲部門利潤 +83%，主要是基期效果
+- [[microsoft-gaming]] — Xbox 內容與服務連續 4 季年減
 
-**推理**
-- [[chain-of-thought]] — 先推理再回答；含 2022→2026 演進 ⭐ 核心頁
-- [[zero-shot-cot]] — 一句 "Let's think step by step" 引出推理
-- [[self-consistency]] — 抽多條推理、多數決
-- [[react]] — 推理與查資料／呼叫工具交錯進行
-- [[self-check]] — 要求模型完成前自我驗證
+## 平台（platforms/）
+- [[switch-2]] — 累計 26.35M 台、軟體 73.21M 套
+- [[switch]] — 累計 157.20M 台，軟體仍穩定銷售
+- [[ps5]] — 累計 97.9M 台（非官方）
+- [[xbox-series]] — 不公布銷量
 
-## 模型／廠商（models）
-- [[claude]] — Anthropic；XML 標籤、內建思考、世代差異
-- [[gpt]] — OpenAI；推理模型 vs GPT 模型、四段結構
+## 作品（franchises/）
+- [[mario-kart]] — Mario Kart World 16.48M 套
+- [[pokemon]] — Switch 2 兩款各 4.04M（Pokopia 只計日本以外）
 
-## 比較（comparisons）
-- [[few-shot-cot-vs-zero-shot-cot]] — 兩種 CoT 的成本、控制力、怎麼選
-- [[anthropic-vs-openai-guides]] — 兩家官方指南的共同點與各自重點
+## 概念（concepts/）
+- [[fiscal-year]] — 三家會計年度對照
+- [[installed-base]] — 裝機量與每台平均軟體
+- [[digital-sales]] — 任天堂數位銷售 +60.5%
+- [[console-lifecycle]] — 主機後期「硬體少、軟體多」
 
-## 來源摘要（sources）
-**方法論**
-- [[2026-karpathy-llm-wiki]] — Karpathy 2026，LLM Wiki 原文
+## 比較（comparisons/）
+- [[big-three-consoles]] — 三大主機廠商比較（2026 年秋）
 
-**論文**
-- [[2022-wei-cot-paper]] — Wei et al. 2022，CoT 原始論文
-- [[2022-wang-self-consistency]] — Wang et al. 2022，Self-Consistency
-- [[2022-kojima-zero-shot-cot]] — Kojima et al. 2022，Zero-shot CoT
-- [[2022-yao-react]] — Yao et al. 2022，ReAct
-- [[2024-schulhoff-prompt-report]] — Schulhoff et al. 2024，The Prompt Report（58 種技巧的分類法）
+## 問答（queries/）
+- [[2026-why-nintendo-profit-up]] — 任天堂營收降、利潤升的原因
 
-**官方指南**
-- [[anthropic-prompting-best-practices]] — Claude 官方提示指南（2026-11 版）
-- [[openai-prompt-engineering-guide]] — OpenAI 官方提示指南（2026-11 版）
-
-## 保存的問答（queries）
-- [[2026-do-we-still-need-step-by-step]] — 2026 年還需要寫 "Let's think step by step" 嗎？
+## 來源（sources/）
+- [[2026-nintendo-h1-fy2027-earnings]] — 任天堂 FY2027 上半年財報（官方）
+- [[2026-nintendo-sales-units]] — 任天堂 IR 銷量（官方）
+- [[2026-sony-q2-fy2026-results]] — Sony FY2026 Q2（官方 6-K）
+- [[2026-microsoft-q1-fy27-results]] — Microsoft FY27 Q1（官方）
+- [[2026-newzoo-global-games-market]] — Newzoo 2026 預測（二手整理）

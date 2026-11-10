@@ -44,7 +44,7 @@ flowchart TD
 | `02-slides-spec.md` | 2 逐頁內容 | 每頁的文字、視覺類型、講稿、來源 |
 | `03-deck.html` | 3 製作 | 投影片本體 |
 | `04-review.md` | 4 審閱 | 截圖檢查結果、修改清單與分流 |
-| `../prompt-engineering-wiki-v2.html` | 5 發佈 | 定版的投影片 |
+| `../game-industry-wiki.html` | 5 發佈 | 定版的投影片（每次執行的中間檔放在 `vN/` 子資料夾） |
 
 ## 各階段規格
 
@@ -117,7 +117,7 @@ flowchart TD
   - 沒有問題 → 階段 5
 
 ### 階段 5：發佈與紀錄
-- 複製成定版檔 `slides/prompt-engineering-wiki-v2.html`（v1 保留不刪）
+- 複製成定版檔 `slides/game-industry-wiki.html`
 - 在 `wiki/log.md` 追加一筆 `export` 紀錄，更新 `README.md` 的簡報連結
 
 ## 全域規則

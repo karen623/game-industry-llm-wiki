@@ -1,4 +1,4 @@
-# CLAUDE.md — Prompt Engineering LLM Wiki（schema）
+# CLAUDE.md — 電子遊戲產業追蹤 LLM Wiki（schema）
 
 這份檔案是這個 wiki 的「憲法」。任何 AI 助理（Claude Code 等）在這個資料夾裡工作前
 **一定要先讀完這份**，並嚴格照這裡的結構與流程維護 wiki。
@@ -6,10 +6,10 @@
 > 作法參考 Andrej Karpathy 的 LLM Wiki：不是每次提問才去翻原始文件（傳統 RAG），
 > 而是由 LLM **持續編寫、維護一份互相連結的 Markdown wiki**，知識會隨每次 ingest 累積。
 
-- 主題：**Prompt Engineering（提示工程）**——技巧、原理、模型差異、實際應用與失敗案例。
+- 主題：**電子遊戲產業追蹤，以任天堂為主**——任天堂的主機、財報、作品與策略，並和 Sony（PlayStation）、Microsoft（Xbox）等對手比較，掌握產業趨勢。
 - 用途：生成式 AI 課程的**個人作業**。作業要求與驗收標準見 `requirements.md`。
 - 語言：wiki 頁面一律用**繁體中文**撰寫；專有名詞第一次出現時附英文原文，
-  例如「思維鏈（Chain-of-Thought, CoT）」。原始資料可以是英文。
+  例如「營業利益（Operating Profit）」。原始資料可以是英文或日文。
 
 ---
 
@@ -20,8 +20,8 @@ GenAI_LLM_Wiki/
 ├── CLAUDE.md          ← 本檔：schema 與工作流程（人改，AI 不擅自改）
 ├── raw/               ← 第 1 層：原始資料，唯讀，AI 不可修改或刪除
 │   ├── articles/      網路文章、部落格（存成 .md）
-│   ├── papers/        論文（PDF 或 .md 摘錄）
-│   ├── guides/        官方文件／指南（Anthropic、OpenAI、Google 等）
+│   ├── official/      官方資料：財報、投資人說明、銷售數據（任天堂、Sony、Microsoft）
+│   ├── reports/       市場研究報告（Newzoo、Circana 等）
 │   ├── transcripts/   影片、演講、Podcast 逐字稿
 │   └── assets/        圖片等附件
 ├── wiki/              ← 第 2 層：由 AI 撰寫與維護
@@ -29,10 +29,11 @@ GenAI_LLM_Wiki/
 │   ├── log.md         操作紀錄（只往下追加，不改舊紀錄）
 │   ├── overview.md    整個領域的總覽／地圖
 │   ├── sources/       每份原始資料一頁摘要
-│   ├── concepts/      概念頁（例：幻覺、Context Window、In-context Learning）
-│   ├── techniques/    技巧頁（例：Few-shot、CoT、ReAct、Role Prompting）
-│   ├── models/        模型／廠商頁（例：Claude、GPT、Gemini 的提示差異）
-│   ├── comparisons/   比較頁（例：Zero-shot vs Few-shot）
+│   ├── companies/     公司頁（例：任天堂、Sony、Microsoft）
+│   ├── platforms/     平台／主機頁（例：Switch 2、Switch、PS5、Xbox）
+│   ├── franchises/    作品／IP 頁（例：瑪利歐賽車、寶可夢）
+│   ├── concepts/      概念頁（例：裝機量、數位銷售、第一方作品）
+│   ├── comparisons/   比較頁（例：三大主機廠商比較）
 │   └── queries/       值得保存的問答結果
 └── sources.md         待蒐集／已蒐集素材清單（人和 AI 都可以更新）
 ```
@@ -41,42 +42,48 @@ GenAI_LLM_Wiki/
 
 ### 2.1 檔名
 
-- 全小寫英文、以 `-` 連接：`chain-of-thought.md`、`few-shot-prompting.md`。
-- 來源摘要頁：`sources/<年份>-<簡短名稱>.md`，例：`sources/2022-wei-cot-paper.md`。
+- 全小寫英文、以 `-` 連接：`nintendo.md`、`switch-2.md`。
+- 來源摘要頁：`sources/<年份>-<簡短名稱>.md`，例：`sources/2026-nintendo-h1-fy2027-earnings.md`。
 
 ### 2.2 每頁開頭的 frontmatter
 
 ```yaml
 ---
-title: 思維鏈（Chain-of-Thought, CoT）
-type: technique        # concept | technique | model | comparison | source | query
-tags: [reasoning, prompting-basics]
-sources: [2022-wei-cot-paper, anthropic-prompt-guide]   # 對應 wiki/sources/ 的檔名
+title: Nintendo Switch 2
+type: platform         # company | platform | franchise | concept | comparison | source | query
+tags: [nintendo, hardware]
+sources: [2026-nintendo-h1-fy2027-earnings]   # 對應 wiki/sources/ 的檔名
 updated: 2026-11-10
 ---
 ```
 
-### 2.3 技巧頁（techniques/）建議段落
+### 2.3 公司／平台頁建議段落
 
 1. **一句話定義**
-2. **怎麼用**：步驟＋最小範例 prompt（用 code block）
-3. **為什麼有效**：背後原理
-4. **適用／不適用情境**
-5. **常見錯誤**
+2. **最新數字**：表格，每個數字都寫**期間、單位／幣別、來源**
+3. **趨勢**：和前期比較，變好還是變差、原因
+4. **策略與動向**：新作、新硬體、公司說法
+5. **⚠️ 待追蹤**：還沒確定、要等下一份財報確認的事
 6. **相關頁面**：`[[...]]` 連結
 7. **來源**：列出引用的 source 頁
 
-概念頁、模型頁可以比照調整，但「定義」「相關頁面」「來源」三段必須有。
+作品頁、概念頁可以比照調整，但「定義」「相關頁面」「來源」三段必須有。
+
+### 2.3.1 數字規則（追蹤產業專用）
+
+- 財報數字一定要寫**期間**（例：2026 年 4–9 月）和**會計年度的叫法**（任天堂 FY2027＝2026/4–2027/3；Sony FY2026＝2026/4–2027/3；Microsoft FY27＝2026/7–2027/6）。
+- **官方來源優先**；只有新聞或第三方報導的數字，要標「（非官方）」。
+- 預測值（forecast）和實際值分開寫，預測要標「（預測）」。
 
 ### 2.4 連結規則
 
-- 頁面之間用 wiki 連結：`[[chain-of-thought]]`（不寫副檔名、不寫資料夾）。
+- 頁面之間用 wiki 連結：`[[switch-2]]`（不寫副檔名、不寫資料夾）。
 - 每個新頁面**至少連出 2 個**相關頁面，也要回頭在相關頁面加上連回來的連結。
 - 提到還沒建立的概念也可以先寫 `[[xxx]]`，lint 時再決定要不要建頁。
 
 ### 2.5 引用與可信度
 
-- 每個重要論點都要能追溯到 `sources/` 裡的某一頁，寫成：`（來源：[[2022-wei-cot-paper]]）`。
+- 每個重要論點都要能追溯到 `sources/` 裡的某一頁，寫成：`（來源：[[2026-nintendo-h1-fy2027-earnings]]）`。
 - 不同來源說法衝突時，**不要自己選邊**，在頁面中加一段「⚠️ 不同說法」並列出各來源。
 - 沒有來源支持的推論要標註「（推論）」。
 
@@ -89,7 +96,7 @@ updated: 2026-11-10
 1. 完整讀過原始資料。
 2. 先跟使用者簡短報告 3–5 個重點，確認要強調什麼（使用者說「直接做」就跳過）。
 3. 在 `wiki/sources/` 建立這份資料的摘要頁。
-4. 找出它涉及的概念／技巧／模型：
+4. 找出它涉及的公司／平台／作品／概念：
    - 已有頁面 → 補充新資訊、加上來源；有衝突就照 2.5 處理。
    - 沒有頁面 → 新建。
    一次 ingest 通常會動到 5–15 個頁面，這是正常的。
@@ -113,7 +120,7 @@ updated: 2026-11-10
 - 被提到很多次、卻還沒有自己頁面的 `[[概念]]`
 - 頁面之間互相矛盾的說法
 - 缺少來源或 frontmatter 的頁面
-- 可能已過時的資訊（例如舊模型的限制）
+- 可能已過時的資訊（例如已被新財報取代的數字）
 - 建議接下來要蒐集的新素材（寫進 `sources.md`）
 
 ## 4. 禁止事項
