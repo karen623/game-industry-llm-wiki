@@ -212,6 +212,7 @@ tr.badrow td{background:var(--bad-soft);color:var(--ink)}
 .bn b{font-size:72px}
 .steps.flow .card{position:relative}
 .steps.flow .card:not(:last-child)::after{content:"→";position:absolute;right:-15px;top:50%;transform:translateY(-50%);color:var(--accent);font-size:20px;font-weight:700}
+.plbl,.pcap{paint-order:stroke;stroke:var(--paper);stroke-width:5px;stroke-linejoin:round}
 </style>
 </head>
 <body>
@@ -502,7 +503,7 @@ function flowKit(g){
     box:(cx,cy,label,cls='')=>{g.appendChild(el('rect',{x:cx-52,y:cy-27,width:104,height:54,rx:10,class:'pbox '+cls}));g.appendChild(el('text',{x:cx,y:cy+6,'text-anchor':'middle',class:'ptxt'},label));},
     dia:(cx,cy,label,cap,human)=>{const D=30;g.appendChild(el('path',{d:`M${cx} ${cy-D} L${cx+D} ${cy} L${cx} ${cy+D} L${cx-D} ${cy} Z`,class:'pdia'+(human?' human':'')}));g.appendChild(el('text',{x:cx,y:cy+5,'text-anchor':'middle',class:'pdtx'},label));if(cap)g.appendChild(el('text',{x:cx,y:cy+D+17,'text-anchor':'middle',class:'pcap'},cap));},
     fw:(x1,y1,x2,y2)=>g.appendChild(el('line',{x1,y1,x2,y2,class:'pfw','marker-end':'url(#ah)'})),
-    back:(d,lbl,lx,ly,color,mk)=>{g.appendChild(el('path',{d,class:'pback',stroke:color,'marker-end':`url(#${mk})`}));g.appendChild(el('text',{x:lx,y:ly,'text-anchor':'middle',class:'plbl',fill:color},lbl));}
+    back:(d,lbl,lx,ly,color,mk,anchor='middle')=>{g.appendChild(el('path',{d,class:'pback',stroke:color,'marker-end':`url(#${mk})`}));g.appendChild(el('text',{x:lx,y:ly,'text-anchor':anchor,class:'plbl',fill:color},lbl));}
   };
 }
 
@@ -522,9 +523,9 @@ function flowKit(g){
   k.box(cx(7),Y2,'Lint');
   k.fw(cx(7)-52,Y2,cx(6)+31,Y2);
   k.dia(cx(6),Y2,'D3','',1);
-  g.appendChild(el('text',{x:cx(6),y:Y2+48,'text-anchor':'middle',class:'pcap'},'人決定修哪些'));
-  k.back(`M${cx(6)-30} ${Y2} C${cx(5)} ${Y2}, ${cx(5)} ${Y2-40}, ${cx(5)} ${Y+28}`,'修頁面',cx(5)-36,Y2-50,W,'ahw');
-  k.back(`M${cx(6)} ${Y2+30} C${cx(6)} ${Y2+70}, ${cx(1)} ${Y2+70}, ${cx(1)} ${Y+28}`,'補資料',(cx(1)+cx(6))/2,Y2+46,W,'ahw');
+  g.appendChild(el('text',{x:cx(6),y:Y2-42,'text-anchor':'middle',class:'pcap'},'人決定修哪些'));
+  k.back(`M${cx(6)-30} ${Y2} C${cx(5)} ${Y2}, ${cx(5)} ${Y2-40}, ${cx(5)} ${Y+28}`,'修頁面',cx(5)-12,Y2-60,W,'ahw','end');
+  k.back(`M${cx(6)} ${Y2+30} C${cx(6)} ${Y2+70}, ${cx(1)} ${Y2+70}, ${cx(1)} ${Y+28}`,'補資料',(cx(1)+cx(6))/2,Y2+26,W,'ahw');
 })();
 
 (function drawPipe(){

@@ -98,3 +98,8 @@
 - 操作者：苡瑄＋Claude Code（使用者要求）
 - 修改：`slides/game-industry-wiki.html` 新增「下一季財報進來，wiki 會怎樣？」，說明簡報和 wiki 的關係；依流程 B 的 C4 分流當作故事線問題退回階段 1
 - 修改頁面：無
+
+## [2026-11-10] export | 修正簡報第 9 頁流程圖 A 的標籤位置
+- 操作者：苡瑄＋Claude Code（使用者回報）
+- 修改：`slides/game-industry-wiki.html` 流程圖 A 下半部「補資料」「人決定修哪些」「修頁面」三個標籤重新排位，線上標籤加描邊
+- 修改頁面：無
